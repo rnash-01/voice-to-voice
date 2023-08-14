@@ -1,0 +1,36 @@
+{
+  "name": "voice-to-voice",
+  "version": "1.0.0",
+  "description": "A web-app which converts the user's voice into another voice of their choosing",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rnash-01/voice-to-voice.git"
+  },
+  "keywords": [
+    "AI",
+    "Speech",
+    "Synthesis"
+  ],
+  "author": "Raphael Nash",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/rnash-01/voice-to-voice/issues"
+  },
+  "homepage": "https://github.com/rnash-01/voice-to-voice#readme",
+  "dependencies": {
+    "electron": "^25.5.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+	"scripts": {
+		"test": "echo \"Currently, no tests are set up\". && exit 1",
+		"build": "rm -rf src/front/dist && webpack src/front/ --mode development",
+		"dev": "nodemon app.js"
+	}
+}
