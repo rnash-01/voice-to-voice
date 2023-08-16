@@ -1,0 +1,24 @@
+* Plan
+** Architecture
+*** DRAFT 1
+**** MODEL 1
+
+[[./Architecture_1.png]]
+
+The above diagrma is the first architecture plan.
+Pros:
++ Strong separation between UI and backend. Can work on both separately without too much worry.
++ Data can just be stored in common format appropriate for IPC; no need to worry
+  about how it appears in memory off the bat
++ In theory, if network comm is used, this architecture allows the backend to either
+  run locally or on another machine, without (too much) worry about implementation details
+
+Cons:
+- Potential latency between UI events and result - especially if using network interface
+- Inconvenience of having to run multiple processes and communicate over network (even if
+  localhost) - however, this does not change how the deliverable is packaged. Can still
+  run as one binary.
+
+If latency is an issue, model 2 might be better
+  
+**** MODEL 2
