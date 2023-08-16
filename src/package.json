@@ -5,7 +5,10 @@
 	"main": "main.js",
 	"scripts": {
 		"test": "test",
-		"start:electron": "electron electron_app"
+		"start:electrondev": "cd electron_app && npm run startdev",
+		"start:electron": "cd electron_app && npm run start",
+		"package:electron": "cd electron_app && npm run package",
+		"make:electron": "cd electron_app && npm run make"
 	},
 	"repository": {
 		"type": "git",
