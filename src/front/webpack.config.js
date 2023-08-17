@@ -1,10 +1,10 @@
 // Taken and adapted from: https://dev.to/underscorecode/creating-your-react-project-from-scratch-without-create-react-app-the-complete-guide-4kbc
 
-const path = require("path");
-const webpack = require("webpack");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+import path from "path";
+import webpack from "webpack";
+import HTMLWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+const exportObj = {
 	entry: "./index.js",
 	output: {
 		filename: "bundle.js",
@@ -15,8 +15,8 @@ module.exports = {
 		// Help webpack to determine what loader to use for each file extension.
 		rules: [
 			{
-				test: /\.(js|jsx)$/
-				exclude: /node_modules/,
+				test: /\.(js|jsx)$/,
+				//exclude: /node_modules/,
 				use: "babel-loader"
 			},
 			{
@@ -24,7 +24,7 @@ module.exports = {
 				use: "html-loader"
 			},
 			{
-				test: /\.css$/
+				test: /\.css$/,
 				use: ["style-loader", "css-loader"]
 			}
 			// PNG, fonts, etc, could be appended here.
@@ -33,6 +33,17 @@ module.exports = {
 	plugins: [
 		new HTMLWebpackPlugin({
 			template: "index.html"
-		}),
-	]
-}
+		})
+	],
+	devtool: "inline-source-map",
+	devServer: {
+		static: {
+			directory: path.resolve("dist")
+		},
+		compress: true,
+		port: 3000,
+		hot: true
+	}
+};
+
+export default exportObj;
