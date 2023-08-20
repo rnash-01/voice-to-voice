@@ -1,0 +1,51 @@
+{
+	"name": "voice-to-voice",
+	"version": "1.0.0",
+	"description": "A web-app which converts the user's voice into another voice of their choosing",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo test",
+		"start:electron:dev": "cd electron_app && npm run startdev",
+		"start:electron": "cd electron_app && npm run start",
+		"start:react:dev": "concurrently \"webpack serve --mode development\" \"open http://localhost:3000\"",
+		"package:electron": "cd electron_app && npm run package",
+		"build:react": "rm -rf dist && webpack --mode production",
+		"build:react:dev": "rm -rf dist && webpack --mode development",
+		"build:electron": "npm run build:react && rm -r electron_app/dist && cp -r dist electron_app/dist && cd electron_app && npm run make"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rnash-01/voice-to-voice.git"
+	},
+	"keywords": [
+		"AI",
+		"Speech",
+		"Synthesis"
+	],
+	"author": "Raphael Nash",
+	"license": "GPL-3.0-only",
+	"bugs": {
+		"url": "https://github.com/rnash-01/voice-to-voice/issues"
+	},
+	"homepage": "https://github.com/rnash-01/voice-to-voice#readme",
+	"dependencies": {
+		"electron": "^25.5.0",
+		"express": "^4.18.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.22.10",
+		"@babel/preset-env": "^7.22.10",
+		"@babel/preset-react": "^7.22.5",
+		"babel-loader": "^9.1.3",
+		"concurrently": "^8.2.0",
+		"css-loader": "^6.8.1",
+		"html-loader": "^4.2.0",
+		"html-webpack-plugin": "^5.5.3",
+		"http-server": "^14.1.1",
+		"nodemon": "^3.0.1",
+		"style-loader": "^3.3.3",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^4.15.1"
+	}
+}
