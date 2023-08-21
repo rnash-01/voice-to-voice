@@ -6,15 +6,21 @@ const createWindow = () => {
 		width: 800,
 		height: 600,
 		webPreferences: {
-			preload: path.join(__dirname, 'preload.js')
+			preload: path.join(__dirname, 'preload.js'),
+			nodeIntegration: true
 		}
 	});
-	win.loadFile('app/index.html');
+	console.log(__dirname);
+	win.loadURL(
+		process.env.DEV_MODE
+			? 'http://localhost:3000'
+			: `file://${__dirname}/app/dist/index.html`
+	);
+//	win.loadURL('http://localhost:3000');
 };
 
 // Handle events - following https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app
 app.whenReady().then(() => {
-	ipcMain.handle('ping', () => 'pong')
 	createWindow();
 
 	// Close app if all windows are closed

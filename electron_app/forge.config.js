@@ -1,12 +1,12 @@
 module.exports = {
   packagerConfig: {
-      asar: true,
+    asar: true,
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-	  config: {}
+      config: {},
     },
     {
       name: '@electron-forge/maker-zip',

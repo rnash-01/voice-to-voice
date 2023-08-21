@@ -5,13 +5,17 @@
 	"main": "main.js",
 	"scripts": {
 		"test": "echo test",
-		"start:electron:dev": "cd electron_app && npm run startdev",
+		"rmdist:web": "rm -rf dist",
+		"rmdist:electron": "rm -rf electron_app/app/dist",
+		"rmdist": "npm run rmdist:web && npm run rmdist:electron",
+		"start:electron:dev": "cd electron_app && DEV_MODE=true npm run startdev",
 		"start:electron": "cd electron_app && npm run start",
-		"start:react:dev": "concurrently \"webpack serve --mode development\" \"open http://localhost:3000\"",
+		"start:react:dev": "concurrently \"webpack serve --mode development --config webpack.web.js\" \"open http://localhost:3000\"",
 		"package:electron": "cd electron_app && npm run package",
-		"build:react": "rm -rf dist && webpack --mode production",
-		"build:react:dev": "rm -rf dist && webpack --mode development",
-		"build:electron": "npm run build:react && rm -r electron_app/dist && cp -r dist electron_app/dist && cd electron_app && npm run make"
+		"build:react": "npm run rmdist && webpack --mode production",
+		"build:react:dev": "npm run rmdist && webpack --mode development",
+		"build:react:electron": "npm run rmdist:electron && webpack --mode production --config webpack.electron.js",
+		"build:electron": "npm run build:react:electron && cd electron_app && npm run make"
 	},
 	"repository": {
 		"type": "git",
@@ -46,6 +50,7 @@
 		"style-loader": "^3.3.3",
 		"webpack": "^5.88.2",
 		"webpack-cli": "^5.1.4",
-		"webpack-dev-server": "^4.15.1"
+		"webpack-dev-server": "^4.15.1",
+		"webpack-merge": "^5.9.0"
 	}
 }

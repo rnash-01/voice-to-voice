@@ -1,7 +1,7 @@
 import React from "react";
 
 const App = () => {
-	return <div>Hello, World!</div>;
+	console.log("I'm running");
+	return <div>Hello, World</div>;
 };
-
 export default App;
