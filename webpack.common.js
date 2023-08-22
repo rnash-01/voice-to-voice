@@ -30,9 +30,4 @@ module.exports = {
 			// PNG, fonts, etc, could be appended here.
 		]
 	},
-	plugins: [
-		new webpack.DefinePlugin({
-			HASH_ROUTERS: false
-		})
-	]
 };

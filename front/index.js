@@ -9,7 +9,7 @@ import App from "./App.js";
 // For web, a standard BrowserRouter works.
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let Router;
-HASH_ROUTERS
+typeof(HASH_ROUTERS) !== 'undefined'
 	? Router = HashRouter
 	: Router = BrowserRouter
 root.render(

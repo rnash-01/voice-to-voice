@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-
+const voice = require('./voice_iface.js');
 const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 800,
@@ -22,7 +22,7 @@ const createWindow = () => {
 // Handle events - following https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app
 app.whenReady().then(() => {
 	createWindow();
-
+	voice.test();
 	// Close app if all windows are closed
 	app.on('window-all-closed', () => {
 		if (process.platform !== 'darwin') app.quit();
