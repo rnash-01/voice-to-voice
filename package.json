@@ -16,6 +16,8 @@
 		"build:react": "npm run rmdist && webpack --mode production",
 		"build:react:dev": "npm run rmdist && webpack --mode development",
 		"build:react:electron": "npm run rmdist:electron && webpack --mode production --config webpack.electron.js",
+		"build:cpp:electron:dev": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --debug",
+		"build:cpp:electron": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --release",
 		"build:electron": "npm run build:react:electron && cd electron_app && npm run make",
 		"clean": "npm run rmdist && npm run rmout"
 	},
