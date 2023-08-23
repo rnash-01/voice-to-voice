@@ -1,7 +1,10 @@
-#include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
+#include <cstdio>
 
-int main(int argc, char** argv)
+char* helloworld()
 {
-	fprintf(stdout, "Hello, World!\n");
+    char* msg = "The CPP message works babyy!";
+	return msg;
 }
 	

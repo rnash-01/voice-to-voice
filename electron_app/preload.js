@@ -4,4 +4,5 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('backinterface', {
 	// Interfaces called by front end go here.
+	hello: () => ipcRenderer.invoke('hello')
 });

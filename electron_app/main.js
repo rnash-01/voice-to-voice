@@ -12,7 +12,7 @@ const createWindow = () => {
 	});
 	console.log(__dirname);
 	win.loadURL(
-		process.env.DEV_MODE
+		process.env.WEB_MODE
 			? 'http://localhost:3000'
 			: `file://${__dirname}/app/dist/index.html`
 	);
@@ -22,7 +22,7 @@ const createWindow = () => {
 // Handle events - following https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app
 app.whenReady().then(() => {
 	createWindow();
-	voice.test();
+	ipcMain.handle('hello', () => voice.hello());
 	// Close app if all windows are closed
 	app.on('window-all-closed', () => {
 		if (process.platform !== 'darwin') app.quit();

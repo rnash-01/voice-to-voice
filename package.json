@@ -9,6 +9,7 @@
 		"rmdist:electron": "rm -rf electron_app/app/dist",
 		"rmdist": "npm run rmdist:web && npm run rmdist:electron",
 		"rmout": "rm -rf electron_app/out && rm -rf cpp/build",
+		"start:electron:web": "cd electron_app && DEV_MODE=true WEB_MODE=true npm run startdev",
 		"start:electron:dev": "cd electron_app && DEV_MODE=true npm run startdev",
 		"start:electron": "cd electron_app && npm run start",
 		"start:react:dev": "concurrently \"webpack serve --mode development --config webpack.web.js\" \"open http://localhost:3000\"",
@@ -19,6 +20,7 @@
 		"build:cpp:electron:dev": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --debug",
 		"build:cpp:electron": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --release",
 		"build:electron": "npm run build:react:electron && cd electron_app && npm run make",
+		"prepare:electron:dev": "npm run build:cpp:electron:dev && npm run build:react:electron",
 		"clean": "npm run rmdist && npm run rmout"
 	},
 	"repository": {
