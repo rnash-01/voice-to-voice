@@ -17,10 +17,11 @@
 		"build:react": "npm run rmdist && webpack --mode production",
 		"build:react:dev": "npm run rmdist && webpack --mode development",
 		"build:react:electron": "npm run rmdist:electron && webpack --mode production --config webpack.electron.js",
-		"build:cpp:electron:dev": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --debug",
-		"build:cpp:electron": "cd cpp && node-gyp build --target=25.5.0 --dist-url=https://electronjs.org/headers --release",
+		"build:cpp:electron:dev": "cd cpp && node-gyp rebuild --target=25.5.0 --dist-url=https://electronjs.org/headers --debug",
+		"build:cpp:electron": "cd cpp && node-gyp rebuild --target=25.5.0 --dist-url=https://electronjs.org/headers --release",
 		"build:electron": "npm run build:react:electron && cd electron_app && npm run make",
-		"prepare:electron:dev": "npm run build:cpp:electron:dev && npm run build:react:electron",
+		"prepare:cpp": "cd cpp && node-gyp configure",
+		"prepare:electron:dev": "npm run prepare:cpp && npm run build:cpp:electron:dev && npm run build:react:electron",
 		"clean": "npm run rmdist && npm run rmout"
 	},
 	"repository": {
@@ -46,6 +47,7 @@
 		"@babel/core": "^7.22.10",
 		"@babel/preset-env": "^7.22.10",
 		"@babel/preset-react": "^7.22.5",
+		"@electron/rebuild": "^3.3.0",
 		"babel-loader": "^9.1.3",
 		"concurrently": "^8.2.0",
 		"css-loader": "^6.8.1",
