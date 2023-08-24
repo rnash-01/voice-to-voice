@@ -16,8 +16,9 @@ jobs:
         with:
           node-version: '20.5.1'
       - run: ls -l
+      - run: pwd
       - run: npm install
-      - run: npm run build:electron
+      #- run: npm run build:electron
       
     
       
