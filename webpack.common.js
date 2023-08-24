@@ -4,7 +4,7 @@ webpack = require("webpack");
 HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-	entry: "./front/index.js",
+	entry: path.resolve(__dirname, "front/index.js"),
 	module: {
 		// Help webpack to determine what loader to use for each file extension.
 		rules: [
