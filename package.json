@@ -18,8 +18,8 @@
 		"build:react:dev": "npm run rmdist && webpack --mode development",
 		"build:react:electron": "npm run rmdist:electron && webpack --mode production --config webpack.electron.js",
 		"build:cpp:electron:dev": "cd cpp && node-gyp rebuild --target=25.5.0 --dist-url=https://electronjs.org/headers --debug",
-		"build:cpp:electron": "cd cpp && node-gyp rebuild --target=25.5.0 --dist-url=https://electronjs.org/headers --release",
-		"build:electron": "npm run build:react:electron && cd electron_app && npm run make",
+		"build:cpp:electron": "cd cpp && node-gyp rebuild --target=25.5.0 --dist-url=https://electronjs.org/headers --release && cd .. && cp -rf cpp/build/Release electron_app/audio_back",
+		"build:electron": "npm run build:cpp:electron && npm run build:react:electron && cd electron_app && npm run make",
 		"prepare:cpp": "cd cpp && node-gyp configure",
 		"prepare:electron:dev": "npm run prepare:cpp && npm run build:cpp:electron:dev && npm run build:react:electron",
 		"clean": "npm run rmdist && npm run rmout"
