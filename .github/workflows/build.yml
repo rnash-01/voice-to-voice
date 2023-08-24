@@ -17,8 +17,10 @@ jobs:
           node-version: '20.5.1'
       - run: ls -l front
       - run: pwd
-      #- run: npm install
-      #- run: npm run build:electron
+      - run: npm install
+      - run: cd front && npm install && cd ..
+      - run: cd electron_app && npm install && cd ..
+      - run: npm run build:electron
       
     
       
