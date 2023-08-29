@@ -19,8 +19,9 @@ typedef struct {
 	BYTE*	ckData;		// Chunk data
 } CK;
 
-// createChunk
-// Create unpopulated RIFF chunk.
 CK* createChunk(CKID ckId, CKSIZE ckSize);
+int deleteChunk(CK* ck);
+CK* readChunk(FILE* fp);
+int writeChunk(FILE* fp, CK* ck);
 
 // 1. https://www.aelius.com/njh/wavemetatools/doc/riffmci.pdf
