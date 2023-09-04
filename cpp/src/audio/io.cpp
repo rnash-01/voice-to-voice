@@ -1,25 +1,29 @@
-#include "io.h"
+#include <audio/io.h>
 CK* createChunk(CKID ckID, CKSIZE size)
 {
 	BYTE* ptr;								// Pointer to chunk data
 	CK* chunk = 0;							// Pointer to chunk struct
 	CKSIZE chunkSize;						// Word-aligned size of chunk
+	int i = 0;
 
 	// Calculate chunkSize (number of total elements)
 	// "A pad byte with zero is written after ckData. Word aligning
 	// improves access speeds ... "
 	chunkSize = size + (size % 2);
-
+	fprintf(stdout, "Hello, chunk size is %ld\n", chunkSize);
+	
 	// Attempt pointer allocation
-	if (!(ptr = (BYTE*) malloc(chunkSize * sizeof(DWORD))))
+	if (!(ptr = (BYTE*) malloc(chunkSize)))
 		return 0;
 	
-	// Else...
 	chunk = (CK*) malloc(sizeof(CK));
 	
 	chunk->ckID = ckID;
 	chunk->ckSize = size;
 	chunk->ckData = ptr;
+
+	// Set data to zero.
+	for (i = 0; i < chunkSize; i++) ptr[i] = 0;
 	
 	return chunk;
 }
@@ -31,7 +35,7 @@ int deleteChunk(CK* ck)
 	if (ck->ckData) free(ck->ckData);
 	free(ck);
 
-	return;
+	return 0;
 }
 
 CK* readChunk(FILE* fp)
@@ -66,6 +70,6 @@ int writeChunk(FILE* fp, CK* ck)
 	if (!fp) return 1;
 
 	// Write metadata first
-
 	
+	return 0;
 }
