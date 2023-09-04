@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/VoiceBackend.dir/cpp/src/main.cpp.o CMakeFiles/VoiceBackend.dir/cpp/src/audio/io.cpp.o -o VoiceBackend 
