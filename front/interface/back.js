@@ -2,9 +2,7 @@
 // The hope is that this file can be built automatically from some electron/web-ambivalent code. To be consistent, all functions are PROMISES.
 
 const backiface = {
-	hello: () => {
-		window.backinterface.hello
-	}
+	hello: () => typeof window !== 'undefined' ? window.backinterface.hello : Promise.resolve("No backinterface defined")
 }
 
 export default backiface;
