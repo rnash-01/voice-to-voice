@@ -10,7 +10,7 @@
 		"rmdist:web": "rm -rf dist",
 		"rmdist:electron": "rm -rf electron_app/app/dist",
 		"rmdist": "npm run rmdist:web && npm run rmdist:electron",
-		"rmout": "rm -rf electron_app/out && rm -rf cpp/build && mkdir cpp/build && rm -rf cpp/build_nojs && mkdir cpp/build_nojs",
+		"rmout": "rm -rf electron_app/out && rm -rf electron_app/audio_back && rm -rf cpp/build && mkdir cpp/build && rm -rf cpp/build_nojs && mkdir cpp/build_nojs",
 		"start:electron:web": "cd electron_app && DEV_MODE=true WEB_MODE=true npm run startdev",
 		"start:electron:dev": "cd electron_app && DEV_MODE=true npm run startdev",
 		"start:electron": "cd electron_app && npm run start",
