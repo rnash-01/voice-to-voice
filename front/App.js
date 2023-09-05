@@ -1,11 +1,14 @@
 import React, {useState} from "react";
-import { hello } from "./interface/back.js"
+import back from "./interface/back.js"
 
+const hello = back.hello
 const App = () => {
+	console.log(hello);
 	const [helloResult, setHelloResult] = useState("Pending...");
-	console.log(`It seems that the function is${window.backinterface.hello ? "" : " not"} defined`);
+	console.log(`It seems that the function is${hello ? "" : " not"} defined`);
 
-	window.backinterface.hello().then((res) => {
+	console.log(typeof hello)
+	hello().then((res) => {
 		setHelloResult(res);
 	});
 	
