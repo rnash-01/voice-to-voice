@@ -13,15 +13,12 @@ typedef DWORD FOURCC;		// Four-character code
 typedef FOURCC CKID;		// Four-character-code chunk identifier
 typedef DWORD CKSIZE;		// 32-bit unsigned size value
 
-typedef struct {
+typedef struct ck {
 	CKID	ckID;		// Chunk type identifier
 	CKSIZE	ckSize;		// Chunk size field (size of ckData)
 	BYTE*	ckData;		// Chunk data
+	ck*		next;		// Pointer to next chunk
+	ck*		prev;		// Pointer to previous chunk
 } CK;
-
-CK* createChunk(CKID ckId, CKSIZE ckSize);
-int deleteChunk(CK* ck);
-CK* readChunk(FILE* fp);
-int writeChunk(FILE* fp, CK* ck);
 
 // 1. https://www.aelius.com/njh/wavemetatools/doc/riffmci.pdf
