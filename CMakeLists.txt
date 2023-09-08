@@ -16,6 +16,8 @@ include_directories(cpp/src/include)
 add_executable(${PROJECT_NAME}
 cpp/src/main.cpp
 cpp/src/audio/io.cpp
+cpp/src/audio/AudioHandler.cpp
+cpp/src/audio/WAVHandler.cpp
 )
 
 add_executable(${PROJECT_NAME}_test

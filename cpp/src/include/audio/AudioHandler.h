@@ -1,6 +1,21 @@
-class AudioHandler
+#pragma once
+
+#include <audio/io.h>
+
+class AudioReader
 {
  public:
-	void readBytes(size_t n, char* buffer);
-	void writeBytes(size_t n, char* buffer);
-}
+	AudioReader() {}
+	~AudioReader() {}
+	void 	readBytes(size_t n);							// Read from buffer
+	void 	bindLoadCallback(int (*callback)());			// Sets onLoad
+
+
+ private:
+	CK*		buffer;
+	size_t	buffer_size;
+	bool 	isLoading;
+	int		(*onLoad)();	// When certain amount of data is loaded, call.
+};
+
+
