@@ -22,4 +22,9 @@ typedef struct ck {
 	ck*		prev;		// Pointer to previous chunk
 } CK;
 
+CK* createChunk(CKID, CKSIZE);
+int deleteChunk(CK*);
+CK* readChunk(FILE*);
+int writeChunk(FILE*, CK*);
+
 // 1. https://www.aelius.com/njh/wavemetatools/doc/riffmci.pdf

@@ -18,6 +18,8 @@ cpp/src/main.cpp
 cpp/src/audio/io.cpp
 cpp/src/audio/AudioHandler.cpp
 cpp/src/audio/WAVHandler.cpp
+cpp/src/data/Buffer.cpp
+cpp/src/data/BinaryTree.cpp
 )
 
 add_executable(${PROJECT_NAME}_test

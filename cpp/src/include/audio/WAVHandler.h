@@ -5,8 +5,8 @@
 class WAVReader : public AudioReader
 {
  public:
-	WAVReader() {}
-	~WAVReader() {}
+	WAVReader(size_t s) : AudioReader(s) {};
+	~WAVReader() {};
 	
  private:
 	int 		deleteChunk(CK* ck);
