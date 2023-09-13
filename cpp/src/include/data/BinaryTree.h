@@ -14,9 +14,9 @@ typedef struct binTreeItem
 class BinaryTree : public Buffer
 {
  public:
-	BinaryTree();
+	BinaryTree() : Buffer() {}
 	~BinaryTree() {}
-	BYTE operator[](uint);
-	BYTE* 	readBetween(uint, uint);
-	void 	appendItem(uint, size_t, BYTE*);
+	BYTE operator[](uint) override;
+	BYTE* 	readBetween(uint, uint) override;
+	void 	appendItem(uint, size_t, BYTE*) override;
 };

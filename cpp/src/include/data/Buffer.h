@@ -23,9 +23,9 @@ class Buffer
  public:
 	Buffer() {}
 	~Buffer() {}
-	virtual BYTE 	operator[](uint) 			= 0;
-	virtual BYTE* 	readBetween(uint, uint) 	= 0;
-	virtual void	appendItem(size_t, BYTE*) 	= 0;
+	virtual BYTE 	operator[](uint) 					= 0;
+	virtual BYTE* 	readBetween(uint, uint) 			= 0;
+	virtual void	appendItem(uint, size_t, BYTE*) 	= 0;
 
  protected:
 	void* first;

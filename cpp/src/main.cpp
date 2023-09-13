@@ -2,9 +2,11 @@
 
 int main(int argc, char** argv)
 {
-	AudioReader* a = new AudioReader(15);
-	std::cout << "Size is: " << a->getSize() << std::endl;
-	delete a;
-	std::cout << "Deleted successfully" << std::endl;
-	return 0;
+	BinaryTree* B = new BinaryTree();
+
+	for (int i = 0; i < 5; i++)
+	{
+		BYTE* buffer = new BYTE[256];
+		B->appendItem(i + 1, 256, buffer);
+	}
 }
