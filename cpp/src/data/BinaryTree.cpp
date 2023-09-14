@@ -3,6 +3,28 @@
 BinaryTree::BinaryTree() : Buffer()
 {
 	head = NULL;
+	first = NULL;
+}
+
+
+
+
+void BinaryTree::deleteSubTree(BinTreeItem* item)
+{
+	BinTreeItem *rchild, *lchild;
+
+	if (!item) return;
+	rchild = item->rchild;
+	lchild = item->lchild;
+
+	// Clear out data and delete the item itself
+	if (item->data) delete[] item->data;
+	delete item;
+
+	// Now do the same on its children
+
+	if (lchild) deleteSubTree(lchild);
+	if (rchild) deleteSubTree(rchild);
 }
 
 BYTE BinaryTree::operator[](uint)
@@ -13,39 +35,45 @@ BYTE BinaryTree::operator[](uint)
 /* inOrderRead
 recursive function that reads a number of bytes from the BinaryTree
 in correct order */
-void BinaryTree::inOrderRead(size_t& n, BYTE* buffer, BinTreeItem* item)
+void BinaryTree::inOrderRead(uint &start, size_t& n, uint& offset, BYTE* buffer, BinTreeItem* item)
 {
-	// NTS:
-	// Function should accept 'uint start' and 'uint end', perhaps as well as a
-	// 'bytesRead' parameter to help actually track what needs reading.
-	// Otherwise, an actual 'readBetween' function is not possible.
-
 	size_t originalSize = n;
-	size_t offset;
-	int i;
+	int i = 0;
+	
 	if (item == NULL || n == 0)
 		return;
 
-	inOrderRead(n, buffer, item->lchild);
+	inOrderRead(start, n, offset, buffer, item->lchild);
 
 	// Now, the value of n should have changed.
 	if (n == 0) return;
 
-	offset = originalSize - n;
-	for (i = 0; i < n && i < item->size; i++)
-		buffer[offset + i] = item->data[i];
+	for (i = 0; i < n && i + start < item->size; i++)
+		buffer[offset + i] = item->data[start + i];
 
+	// Either start is not contained in the current item's buffer,
+	// so we take this buffer's size off the start and inspect the next one
+	// OR the start IS contained in the current item's buffer, in which case,
+	// we need no offset for the next buffer.
+	if (item->size < start) start -= item->size;
+	else start = 0;	
 	n -= i;
+	offset += i;
 
-	inOrderRead(n, buffer, item->rchild);
+	inOrderRead(start, n, offset, buffer, item->rchild);
 }
 
 BYTE* BinaryTree::readBetween(uint start, uint end)
 {
 
 	BYTE* buffer = new BYTE[end - start + 1];
-	inOrderRead(end - start + 1, buffer, this->head);
-	return (BYTE*) 0;
+	size_t n = end - start + 1;
+	uint s = start;
+	uint offset = 0;
+	inOrderRead(s, n, offset, buffer, this->head);
+	printf("===================================\n");
+
+	return buffer;
 }
 
 void BinaryTree::appendItem(uint i, size_t n, BYTE* old)

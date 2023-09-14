@@ -16,14 +16,14 @@ class BinaryTree : public Buffer
 {
  public:
 	BinaryTree();
-	~BinaryTree() {}
+	~BinaryTree() { deleteSubTree(head); }
 	BYTE 	operator[]	(uint) 							override;
 	BYTE* 	readBetween	(uint, uint) 					override;
 	void 	appendItem	(uint, size_t, BYTE*) 			override;
 private:
-	void 	inOrderRead	(size_t&, BYTE*, BinTreeItem*);
+	void 	inOrderRead	(uint&, size_t&, uint&, BYTE*, BinTreeItem*);
+	void	deleteSubTree(BinTreeItem*);
 
 protected:
 	BinTreeItem* head;
-	
 };
