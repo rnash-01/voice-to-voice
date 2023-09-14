@@ -7,6 +7,7 @@ typedef struct binTreeItem
 	struct binTreeItem* parent;
 	struct binTreeItem* lchild;
 	struct binTreeItem* rchild;
+	size_t				size;
 	uint				index;
 	BYTE*				data;
 } BinTreeItem;
@@ -14,9 +15,15 @@ typedef struct binTreeItem
 class BinaryTree : public Buffer
 {
  public:
-	BinaryTree() : Buffer() {}
+	BinaryTree();
 	~BinaryTree() {}
-	BYTE operator[](uint) override;
-	BYTE* 	readBetween(uint, uint) override;
-	void 	appendItem(uint, size_t, BYTE*) override;
+	BYTE 	operator[]	(uint) 							override;
+	BYTE* 	readBetween	(uint, uint) 					override;
+	void 	appendItem	(uint, size_t, BYTE*) 			override;
+private:
+	void 	inOrderRead	(size_t&, BYTE*, BinTreeItem*);
+
+protected:
+	BinTreeItem* head;
+	
 };

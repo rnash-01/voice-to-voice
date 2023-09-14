@@ -9,11 +9,13 @@ TEST_F(BinaryTreeTest, DoesAppendItem)
 	for (i; i < 256;) buffer[i++] = i;
 
 	ASSERT_EQ(tree->first, (void*) 0);
+	ASSERT_EQ(tree->head, (BinTreeItem*) 0);
 
 	tree->appendItem(1, 256, buffer);
 	EXPECT_NE(tree->first, (void*) 0);
+	EXPECT_NE(tree->head, (BinTreeItem*) 0);
 	for (i = 0; i < 256; i++)
-		EXPECT_EQ(((BinTreeItem*)tree->first)->data[i], i);
+		EXPECT_EQ(((BinTreeItem*)tree->head)->data[i], i);
 }
 
 TEST_F(BinaryTreeTest, DoesNotAppendNULL)
@@ -24,15 +26,14 @@ TEST_F(BinaryTreeTest, DoesNotAppendNULL)
 
 	for (i; i < 256;) realBuffer[i++] = i;
 
-	ASSERT_EQ(tree->first, (void*) 0);
+	ASSERT_EQ(tree->head, (void*) 0);
 
 	tree->appendItem(1, 256, realBuffer);
 	tree->appendItem(2, 256, nullBuffer);
 
 	// We expect that no item has actually been added.
-	EXPECT_EQ(((BinTreeItem*)tree->first)->rchild, (BinTreeItem*) 0);
+	EXPECT_EQ(tree->head->rchild, (BinTreeItem*) 0);
 }
-
 
 TEST_F(BinaryTreeTest, DoesAppendManyItems)
 {
@@ -52,7 +53,7 @@ TEST_F(BinaryTreeTest, DoesAppendManyItems)
 
 	// Tree will be unbalanced. So, we expect 1 to be the parent,
 	// 2 to be its rchild, 3 to be 2's rchild, etc.
-	current = (BinTreeItem*) tree->first;
+	current = (BinTreeItem*) tree->head;
 	
 	for (i = 0; i < 5; i++)
 	{
@@ -60,6 +61,5 @@ TEST_F(BinaryTreeTest, DoesAppendManyItems)
 		current = current->rchild;
 	}
 	EXPECT_EQ(current, (BinTreeItem*)0);
-
-
+	EXPECT_EQ(((BinTreeItem*)tree->first)->index, 1);
 }

@@ -21,12 +21,13 @@ protected:
 	void SetUp() override
 	{
 		tree = new BinaryTree_G();
-		tree->first = (void*) 0;
+		tree->first = NULL;
+		tree->head = NULL;
 	}
 
 	void TearDown() override
 	{
-		DeleteSubTree((BinTreeItem*)tree->first);
+		DeleteSubTree(tree->head);
 		delete tree;
 	}
 
@@ -48,6 +49,5 @@ protected:
 		if (lchild) DeleteSubTree(lchild);
 		if (rchild) DeleteSubTree(rchild);
 	}
-
 	BinaryTree_G* tree;
 };
