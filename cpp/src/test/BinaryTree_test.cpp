@@ -116,3 +116,16 @@ TEST_F(BinaryTreeTestPopulated, DoesReadStartToFin)
 	for (int i = 768; i < 852; i++) ASSERT_EQ(buffer[i - 293], 4);
 
 }
+
+TEST_F(BinaryTreeTestPopulated, AccessOpDoesRead)
+{
+	// Try reading edge cases.
+	EXPECT_EQ((*tree)[0], 1);
+	EXPECT_EQ((*tree)[255], 1);
+	EXPECT_EQ((*tree)[256], 2);
+	EXPECT_EQ((*tree)[511], 2);
+	EXPECT_EQ((*tree)[512], 3);
+	EXPECT_EQ((*tree)[767], 3);
+	EXPECT_EQ((*tree)[768], 4);
+
+}

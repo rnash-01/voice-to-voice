@@ -27,9 +27,17 @@ void BinaryTree::deleteSubTree(BinTreeItem* item)
 	if (rchild) deleteSubTree(rchild);
 }
 
-BYTE BinaryTree::operator[](uint)
+BYTE BinaryTree::operator[](uint index)
 {
-	return 0;
+	// We already have 'readBetween', and accessing
+	// data from the BinaryTree is principally the same
+	// here. So, just use it for a single value.
+	BYTE value;
+	BYTE* temp;
+	temp = readBetween(index, index);
+	value = temp[0];
+
+	return value;
 }
 
 /* inOrderRead

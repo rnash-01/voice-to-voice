@@ -43,6 +43,7 @@ public:
 
 protected:
 	void SetUp() override {
+		buffer = NULL;
 		tree = new BinaryTree_G();
 		BYTE* buffers[5];
 		size_t sizes[] = { 256, 256, 256, 128, 64 };
