@@ -127,5 +127,4 @@ TEST_F(BinaryTreeTestPopulated, AccessOpDoesRead)
 	EXPECT_EQ((*tree)[512], 3);
 	EXPECT_EQ((*tree)[767], 3);
 	EXPECT_EQ((*tree)[768], 4);
-
 }
