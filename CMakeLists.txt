@@ -25,11 +25,13 @@ cpp/src/data/BinaryTree.cpp
 add_executable(${PROJECT_NAME}_test
 cpp/src/audio/io.cpp
 cpp/src/audio/AudioHandler.cpp
+cpp/src/audio/WAVHandler.cpp
 cpp/src/data/BinaryTree.cpp
 cpp/src/data/Buffer.cpp
 cpp/src/audio/io_test.cpp
 cpp/src/test/BinaryTree_test.cpp
 cpp/src/test/AudioHandler_test.cpp
+cpp/src/test/WAVHandler_test.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}_test gtest_main)

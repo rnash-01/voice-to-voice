@@ -79,7 +79,6 @@ BYTE* BinaryTree::readBetween(uint start, uint end)
 	uint s = start;
 	uint offset = 0;
 	inOrderRead(s, n, offset, buffer, this->head);
-	printf("===================================\n");
 
 	return buffer;
 }
@@ -153,6 +152,5 @@ void BinaryTree::appendItem(uint i, size_t n, BYTE* old)
 	delete[] buffer;
 	delete item;
 	return;
-	
 }
 

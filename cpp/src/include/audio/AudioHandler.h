@@ -13,7 +13,7 @@ class AudioReader
 	void			bindLoadCallback(int (*callback)(AudioReader*, Buffer&), Buffer&);
 	inline 	size_t	getSize() { return bufferSize; }
 	void			startLoad();	// Starts loading procedure
-	void			stopLoad();	// Stops loading procedure
+	void			stopLoad();		// Stops loading procedure
 	
  protected:
 	BYTE*			buffer;

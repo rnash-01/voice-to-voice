@@ -5,11 +5,14 @@
 class WAVReader : public AudioReader
 {
  public:
-	WAVReader(size_t s) : AudioReader(s) {};
-	~WAVReader() {};
+	WAVReader(size_t s) : AudioReader(s) { this->fName = NULL; }
+	WAVReader(size_t s, char** f) : AudioReader(s) { this->fName = f; }
+
+	void load() override;
 	
  private:
-	int 		deleteChunk(CK* ck);
-	CK* 		readChunk(FILE* fp);
-	int 		writeChunk(FILE* fp, CK* ck);
+	void openFile();
+	void closeFile();
+	FILE* wavFile;
+	char** fName;
 };
