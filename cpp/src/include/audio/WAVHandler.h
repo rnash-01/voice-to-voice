@@ -5,14 +5,22 @@
 class WAVReader : public AudioReader
 {
  public:
-	WAVReader(size_t s) : AudioReader(s) { this->fName = NULL; }
-	WAVReader(size_t s, char** f) : AudioReader(s) { this->fName = f; }
+	WAVReader(size_t s) : AudioReader(s) { this->fName = NULL; this->wavFile = NULL; }
+	WAVReader(size_t s, std::string f);
 
 	void load() override;
+
+	inline int16_t getNChannels() { return fmt.channels; }
+
 	
  private:
-	void openFile();
+	int openFile();
 	void closeFile();
-	FILE* wavFile;
-	char** fName;
+	void loadMeta();
+
+	std::ifstream* wavFile;
+	char* fName;
+	size_t fSize;
+	FMT_CK fmt;				// contains meta info about the file. E.g., sample rate, number of channels, etc.
+	
 };

@@ -11,6 +11,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+file(COPY cpp/src/test/test.wav DESTINATION ${CMAKE_BINARY_DIR})
+
 include_directories(cpp/src/include)
 
 add_executable(${PROJECT_NAME}
@@ -32,6 +34,13 @@ cpp/src/audio/io_test.cpp
 cpp/src/test/BinaryTree_test.cpp
 cpp/src/test/AudioHandler_test.cpp
 cpp/src/test/WAVHandler_test.cpp
+)
+
+add_executable(${PROJECT_NAME}_sandbox
+cpp/src/sandbox.cpp
+cpp/src/audio/io.cpp
+cpp/src/audio/AudioHandler.cpp
+cpp/src/audio/WAVHandler.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}_test gtest_main)

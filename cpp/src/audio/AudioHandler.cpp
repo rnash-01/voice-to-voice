@@ -5,11 +5,17 @@ AudioReader::AudioReader(size_t bufferSize)
 	this->control = NULL;
 	this->threadFlag = false;
 	this->onLoad = NULL;
-	if ((this->buffer = new BYTE[bufferSize]))
-		this->bufferSize = bufferSize;  	
+	this->buffer = NULL;
+	this->bufferSize = 0;
+	
+	if (bufferSize != 0 && (this->buffer = new BYTE[bufferSize]))
+		this->bufferSize = bufferSize;
+	
+	return;
+
 }
 
-void AudioReader::bindLoadCallback(int (*callback)(AudioReader*, Buffer&), Buffer& arg)
+void AudioReader::bindLoadCallback(int (*callback)(BYTE*, size_t, Buffer&), Buffer& arg)
 {
 	this->onLoad = callback;
 	this->callbackArg = &arg;

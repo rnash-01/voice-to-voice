@@ -20,7 +20,7 @@ TEST_F(AudioReaderTest, StartLoadDoesCreateControlThread)
 TEST_F(AudioReaderTest, DoesBindCallBack)
 {
 	BinaryTree b;
-	ASSERT_EQ(a->onLoad, (int (*)(AudioReader*, Buffer&)) NULL);
+	ASSERT_EQ(a->onLoad, (int (*)(BYTE*, size_t, Buffer&)) NULL);
 	
 	a->bindLoadCallback(dummyCallback, b);
 	EXPECT_EQ(a->onLoad, &dummyCallback);
@@ -29,7 +29,7 @@ TEST_F(AudioReaderTest, DoesBindCallBack)
 TEST_F(AudioReaderTest, DoesRunCallbackFromThread)
 {
 	BinaryTree b;
-	ASSERT_EQ(a->onLoad, (int (*)(AudioReader*, Buffer&)) NULL);
+	ASSERT_EQ(a->onLoad, (int (*)(BYTE*, size_t, Buffer&)) NULL);
 
 	a->bindLoadCallback(dummyCallback, b);
 	a->startLoad();
