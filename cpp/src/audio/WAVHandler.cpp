@@ -25,7 +25,7 @@ void WAVReader::loadMeta()
 	if (strcmp(temp, "WAVE")) goto err;
 	wavFile->read((char*)&ckID, 2 * sizeof(DWORD));
 
-	// Read format chunk into 
+	// Read format chunk into reader's format information.
 	wavFile->read((char*)&(this->fmt), ckSize);
 
 	// Finally, get the actual file size.
@@ -38,7 +38,7 @@ void WAVReader::loadMeta()
 	wavFile = NULL;
 	return;
 }
-void WAVReader::load()
+void WAVReader::load(Buffer& b)
 {
 	// First implementation, just run in sequence.
 	// Later on, try to implement in parallel?
@@ -56,7 +56,7 @@ void WAVReader::load()
 		wavFile->read((char*)&ckId, 2 * sizeof(DWORD));
 		
 
-		if (onLoad) onLoad(buffer, n, *(this->callbackArg));
+		//	if (onLoad) onLoad(buffer, n);
 		}*/
 	closeFile();
 }

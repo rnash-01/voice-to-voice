@@ -15,21 +15,20 @@ AudioReader::AudioReader(size_t bufferSize)
 
 }
 
-void AudioReader::bindLoadCallback(int (*callback)(BYTE*, size_t, Buffer&), Buffer& arg)
+void AudioReader::bindLoadCallback(int (*callback)(BYTE*, size_t))
 {
 	this->onLoad = callback;
-	this->callbackArg = &arg;
 }
 
-void AudioReader::threadLoad()
+void AudioReader::threadLoad(Buffer& b)
 {
-	this->load();
+	this->load(b);
 }
 
-void AudioReader::startLoad()
+void AudioReader::startLoad(Buffer& b)
 {
 	this->isLoading = true;
-	std::thread* control = new std::thread(&AudioReader::threadLoad, this);
+	std::thread* control = new std::thread(&AudioReader::threadLoad, this, std::ref(b));
 	this->control = control;
 }
 

@@ -24,8 +24,6 @@ typedef struct ck {
 
 // Based on https://www.lightlink.com/tjweber/StripWav/Canon.html
 typedef struct fmt_ck {
-	CKID 	ckID;
-	CKSIZE	ckSize;
 	int16_t	fmt;
 	int16_t	channels;
    	int32_t	samprate;

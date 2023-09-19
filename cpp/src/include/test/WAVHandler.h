@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <audio/WAVHandler.h>
+#include <data/BinaryTree.h>
 
 class WAVReaderTest : public ::testing::Test
 {

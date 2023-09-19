@@ -10,9 +10,9 @@ class AudioReader
 	AudioReader(size_t);
 	~AudioReader() { if (this->buffer) delete[] this->buffer; }
 
-	void			bindLoadCallback(int (*callback)(BYTE*, size_t, Buffer&), Buffer&);
+	void			bindLoadCallback(int (*callback)(BYTE*, size_t));
 	inline 	size_t	getSize() { return bufferSize; }
-	void			startLoad();	// Starts loading procedure
+	void			startLoad(Buffer&);	// Starts loading procedure
 	void			stopLoad();		// Stops loading procedure
 	
  protected:
@@ -20,10 +20,9 @@ class AudioReader
 	size_t			bufferSize;
 	bool 			isLoading;
 	bool			threadFlag;
-	void			threadLoad();
-	virtual void	load() = 0; 						// specific to subclass
-	int				(*onLoad)(BYTE*, size_t, Buffer&);			// When certain amount of data is loaded, call.
-	Buffer*			callbackArg;						// Buffer used in the callback.
+	void			threadLoad(Buffer&);
+	virtual void	load(Buffer&) = 0;					// specific to subclass
+	int				(*onLoad)(BYTE*, size_t);			// When certain amount of data is loaded, call.
 	std::thread* 	control;
 };
 

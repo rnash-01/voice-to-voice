@@ -5,7 +5,7 @@
 #include <data/BinaryTree.h>
 
 // Define dummy callback
-int dummyCallback(BYTE* buffer, size_t n, Buffer& newBuf)
+int dummyCallback(BYTE* buffer, size_t n)
 {
 	std::cout << "this is a dummy callback function called after the buffer is full" << std::endl;
 	for (int i = 0; i < n; i++)
@@ -24,10 +24,10 @@ public:
 	AudioReader_G(size_t s) : AudioReader(s) {}
 
 private:
-	void load() {
+	void load(Buffer&) override {
 		BYTE* dummyBuffer = new BYTE[256];
-		if (this->onLoad && this->callbackArg)
-			this->onLoad(dummyBuffer, 256, *(this->callbackArg));
+		if (this->onLoad)
+			this->onLoad(dummyBuffer, 256);
 		
 		delete[] dummyBuffer;
 	}
