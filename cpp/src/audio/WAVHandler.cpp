@@ -1,15 +1,25 @@
 #include <audio/WAVHandler.h>
 
+
+WAVReader::WAVReader(size_t s) : AudioReader(s)
+{
+	this->fName = NULL;
+	this->wavFile = NULL;
+	this->samplesPerBufItem = 1;
+}
+
+WAVReader::WAVReader(size_t s, std::string f) : WAVReader(s)
+{
+
+	f.copy((this->fName = new char[f.length()]), f.length(), 0);
+	this->wavFile = NULL;
+}
+
 /*
   loadMeta
   Loads meta information about the file, when nothing has been read yet.
   Only to be called by openFile.
  */
-WAVReader::WAVReader(size_t s, std::string f) : AudioReader(s)
-{
-	f.copy((this->fName = new char[f.length()]), f.length(), 0);
-	this->wavFile = NULL;
-}
 void WAVReader::loadMeta()
 {
 	if (!wavFile) return;
@@ -30,6 +40,7 @@ void WAVReader::loadMeta()
 
 	// Finally, get the actual file size.
 	wavFile->read((char*)&ckID, 2 * sizeof(DWORD));
+	this->fSize = ckSize;
 
 	return;
 
@@ -38,6 +49,11 @@ void WAVReader::loadMeta()
 	wavFile = NULL;
 	return;
 }
+
+/*
+  load
+  Loads WAV file into b.
+ */
 void WAVReader::load(Buffer& b)
 {
 	// First implementation, just run in sequence.
@@ -51,13 +67,19 @@ void WAVReader::load(Buffer& b)
 	size_t n;
 
 	if (!openFile()) return;
-	/*	while (!threadFlag)
-	{
-		wavFile->read((char*)&ckId, 2 * sizeof(DWORD));
-		
 
-		//	if (onLoad) onLoad(buffer, n);
-		}*/
+	n = samplesPerBufItem * fmt.blockAlign;
+	while (!threadFlag && !wavFile->eof())
+	{
+		// As openFile has finished, we expect all the file
+		// format information has been loaded.
+		buffer = new BYTE[n];
+		wavFile->read((char*)buffer, n);
+		b.appendItem(i, n, buffer);
+
+		delete[] buffer;
+		i++;
+	}
 	closeFile();
 }
 

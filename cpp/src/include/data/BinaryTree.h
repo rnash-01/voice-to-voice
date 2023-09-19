@@ -20,6 +20,8 @@ class BinaryTree : public Buffer
 	BYTE 	operator[]	(uint) 							override;
 	BYTE* 	readBetween	(uint, uint) 					override;
 	void 	appendItem	(uint, size_t, BYTE*) 			override;
+
+	inline size_t getSize() override { return size; }
 private:
 	void 	inOrderRead	(uint&, size_t&, uint&, BYTE*, BinTreeItem*);
 	void	deleteSubTree(BinTreeItem*);

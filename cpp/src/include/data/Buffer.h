@@ -21,14 +21,16 @@ this is not strictly the case with file I/O
 class Buffer
 {
  public:
-	Buffer() {}
+	Buffer() { this->first = NULL; this->size = 0; }
 	~Buffer() {}
 	virtual BYTE 	operator[](uint) 					= 0;
 	virtual BYTE* 	readBetween(uint, uint) 			= 0;
 	virtual void	appendItem(uint, size_t, BYTE*) 	= 0;
+	virtual size_t	getSize()							= 0;
 
  protected:
-	void* first;
+	void* 	first;
+	size_t 	size;
 };
 
 

@@ -1,5 +1,6 @@
 #include <test/WAVHandler.h>
 
+
 TEST_F(WAVReaderTest, DoesOpenFile)
 {
 	BinaryTree b;
@@ -17,5 +18,9 @@ TEST_F(WAVReaderTest, DoesReadData)
 	BinaryTree b;
 	r->load(b);
 
+	// Traverse the tree, count up the sizes
+	
+	EXPECT_EQ(b.getSize(), r->getFSize());
+	
 
 }

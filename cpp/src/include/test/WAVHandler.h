@@ -10,6 +10,7 @@ protected:
 	void SetUp() override
 	{
 		r = new WAVReader(0, "./test.wav");
+		r->setSamplesPerBufItem(10);
 	}
 
 	void TearDown() override

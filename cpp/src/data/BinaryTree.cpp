@@ -3,11 +3,7 @@
 BinaryTree::BinaryTree() : Buffer()
 {
 	head = NULL;
-	first = NULL;
 }
-
-
-
 
 void BinaryTree::deleteSubTree(BinTreeItem* item)
 {
@@ -144,7 +140,7 @@ void BinaryTree::appendItem(uint i, size_t n, BYTE* old)
 	if (item->index < ((BinTreeItem*)this->first)->index)
 		this->first = item;
 
-
+	this->size += item->size;
 	return;
 	
  err:
