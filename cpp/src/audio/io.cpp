@@ -10,7 +10,6 @@ CK* createChunk(CKID ckID, CKSIZE size)
 	// "A pad byte with zero is written after ckData. Word aligning
 	// improves access speeds ... "
 	chunkSize = size + (size % 2);
-	fprintf(stdout, "Hello, chunk size is %ld\n", chunkSize);
 	
 	// Attempt pointer allocation
 	if (!(ptr = (BYTE*) malloc(chunkSize)))
