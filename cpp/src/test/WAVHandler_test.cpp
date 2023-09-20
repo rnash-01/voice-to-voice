@@ -16,11 +16,27 @@ TEST_F(WAVReaderTest, DoesOpenFile)
 TEST_F(WAVReaderTest, DoesReadData)
 {
 	BinaryTree b;
+
+	// First, choose '5' as the number of samples per binary tree item.
+	r->setSamplesPerBufItem(5);
 	r->load(b);
-
-	// Traverse the tree, count up the sizes
-	
 	EXPECT_EQ(b.getSize(), r->getFSize());
-	
 
+	// Now try with non-divisible number.
+	b.clear();
+	ASSERT_EQ(b.getSize(), 0);
+
+	r->setSamplesPerBufItem(11);
+	r->load(b);
+	EXPECT_NE(b.getSize(), 0);
+	EXPECT_EQ(b.getSize(), r->getFSize());
+
+	// Try with a bigger number, just in case.
+	b.clear();
+	ASSERT_EQ(b.getSize(), 0);
+
+	r->setSamplesPerBufItem(26723);
+	r->load(b);
+	EXPECT_NE(b.getSize(), 0);
+	EXPECT_EQ(b.getSize(), r->getFSize());	
 }

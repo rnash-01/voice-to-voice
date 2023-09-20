@@ -75,7 +75,10 @@ void WAVReader::load(Buffer& b)
 		// format information has been loaded.
 		buffer = new BYTE[n];
 		wavFile->read((char*)buffer, n);
-		b.appendItem(i, n, buffer);
+
+		// wavFile->gcount() because we might read less than
+		// the buffer size allows.
+		b.appendItem(i, wavFile->gcount(), buffer);
 
 		delete[] buffer;
 		i++;

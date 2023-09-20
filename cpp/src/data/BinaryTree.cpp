@@ -23,6 +23,14 @@ void BinaryTree::deleteSubTree(BinTreeItem* item)
 	if (rchild) deleteSubTree(rchild);
 }
 
+void BinaryTree::clear()
+{
+	if (!this->head) return;
+	deleteSubTree(this->head);
+	this->head = NULL;
+	this->size = 0;
+}
+
 BYTE BinaryTree::operator[](uint index)
 {
 	// We already have 'readBetween', and accessing
@@ -107,6 +115,7 @@ void BinaryTree::appendItem(uint i, size_t n, BYTE* old)
 	{
 		this->head = item;
 		this->first = item;
+		this->size += item->size;
 		return;
 	}
 
