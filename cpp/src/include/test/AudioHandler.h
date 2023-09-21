@@ -21,7 +21,7 @@ class AudioReader_G : public AudioReader
 	FRIEND_TEST(AudioReaderTest, DoesBindCallBack);
 	FRIEND_TEST(AudioReaderTest, DoesRunCallbackFromThread);
 public:
-	AudioReader_G(size_t s) : AudioReader(s) {}
+	AudioReader_G() {}
 
 private:
 	void load(Buffer&) override {
@@ -39,7 +39,7 @@ class AudioReaderTest : public ::testing::Test
 {
 protected:
 	void SetUp() override {
-		a = new AudioReader_G(256);
+		a = new AudioReader_G();
 	}
 
 	void TearDown() override {

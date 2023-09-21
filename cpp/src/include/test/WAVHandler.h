@@ -9,7 +9,7 @@ protected:
 
 	void SetUp() override
 	{
-		r = new WAVReader(0, "./test.wav");
+		r = new WAVReader("./test.wav");
 		r->setSamplesPerBufItem(10);
 	}
 

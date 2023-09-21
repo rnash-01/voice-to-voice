@@ -69,3 +69,12 @@ TEST_F(WAVReaderTest, DoesReadData)
 	}
 	is->close();
 }
+
+TEST_F(WAVReaderTest, BadInput)
+{
+	BinaryTree b;
+	EXPECT_NO_THROW({
+			r->setSamplesPerBufItem(0);
+			r->load(b);
+		});
+}

@@ -3,34 +3,61 @@
 #include <audio/io.h>
 #include <audio/AudioHandler.h>
 
+class WAVHandler
+{
+public:
+	WAVHandler									();
+	~WAVHandler 								();
+	
+protected:
+	char* 			fName;						// Name
+	FMT_CK 			fmt;						// Format info (e.g., sample rate)
+	std::ifstream* 	wavFile;					// File stream reader/writer
 
-class WAVReader : public AudioReader
+	virtual int 	openFile					() 					= 0;
+	virtual void	closeFile					()					= 0;
+	virtual	void	loadMeta					()					= 0;
+};
+
+class WAVReader : public WAVHandler, public	AudioReader
 {
  public:
-	WAVReader(size_t s);
-	WAVReader(size_t s, std::string f);
+	/**/			WAVReader					();
+	/**/			WAVReader					(std::string);
+	/**/			~WAVReader					()					{}
 
-	void load(Buffer&) override;
+	void 			load						(Buffer&) 			override;
 
-	inline int16_t 	getNChannels		   		()			{ return fmt.channels; 			}
-	inline int32_t 	getSampRate				   	()			{ return fmt.samprate; 			}
-	inline int32_t 	getBytesPerSec				() 			{ return fmt.bytesPerSec; 		}
-	inline int16_t 	getBlockAlign				()			{ return fmt.blockAlign;		}
-	inline int16_t 	getBitsPerSample			()			{ return fmt.bitsPerSample;		}
-	inline size_t	getFSize					()			{ return fSize;					}
+	inline int16_t 	getNChannels		   		()					{ return fmt.channels; 			}
+	inline int32_t 	getSampRate				   	()					{ return fmt.samprate; 			}
+	inline int32_t 	getBytesPerSec				() 					{ return fmt.bytesPerSec; 		}
+	inline int16_t 	getBlockAlign				()					{ return fmt.blockAlign;		}
+	inline int16_t 	getBitsPerSample			()					{ return fmt.bitsPerSample;		}
+	inline size_t	getFSize					()					{ return fSize;					}
 
-	inline void		setSamplesPerBufItem		(size_t n)	{ this->samplesPerBufItem = n; 	}
+	inline void		setSamplesPerBufItem		(size_t n)			{ this->samplesPerBufItem = n; 	}
 
 	
  private:
-	int openFile();
-	void closeFile();
-	void loadMeta();
+	int 			openFile					() 					override;
+	void 			closeFile					() 					override;
+	void 			loadMeta					()					override;
 
-	std::ifstream* wavFile;
-	char* fName;
-	size_t fSize;
-	FMT_CK fmt;				// contains meta info about the file. E.g., sample rate, number of channels, etc.
-	size_t samplesPerBufItem;
+	size_t 			fSize;						// Size of input file.											
+	size_t 			samplesPerBufItem;			// How many samples of audio to store in one Buffer item.
+};
+
+
+/*
+  WAVWriter
+  Write WAV outputs from an input Buffer.
+ */
+class WAVWriter : public WAVHandler, public AudioWriter
+{
+	/**/			WAVWriter					();
+	/**/			~WAVWriter					();
+	/**/			WAVWriter					(WAVReader&);
+	/**/			WAVWriter					(WAVWriter&);
+
 	
 };

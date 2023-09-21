@@ -1,18 +1,33 @@
 #include <audio/WAVHandler.h>
 
+// Handler
+WAVHandler::WAVHandler()
+{
+	this->fName 		= NULL;
+	this->wavFile 		= NULL;
+}
 
-WAVReader::WAVReader(size_t s) : AudioReader(s)
+WAVHandler::~WAVHandler()
+{
+	if (this->fName) delete[] this->fName;
+	if (this->wavFile)
+	{
+		this->wavFile->close();
+		delete this->wavFile;
+	}
+}
+
+// Reader
+WAVReader::WAVReader()
 {
 	this->fName = NULL;
 	this->wavFile = NULL;
 	this->samplesPerBufItem = 1;
 }
 
-WAVReader::WAVReader(size_t s, std::string f) : WAVReader(s)
+WAVReader::WAVReader(std::string f) : WAVReader()
 {
-
 	f.copy((this->fName = new char[f.length()]), f.length(), 0);
-	this->wavFile = NULL;
 }
 
 /*
@@ -66,7 +81,8 @@ void WAVReader::load(Buffer& b)
 	CKSIZE ckSize;
 	size_t n;
 
-	if (!openFile()) return;
+	if (!samplesPerBufItem) return;
+	if (!openFile()) 		return;
 
 	n = samplesPerBufItem * fmt.blockAlign;
 	while (!threadFlag && !wavFile->eof())
@@ -103,3 +119,6 @@ void WAVReader::closeFile()
 	wavFile->close();
 	wavFile = NULL;
 }
+
+
+// Writer

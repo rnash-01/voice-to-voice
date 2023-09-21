@@ -3,21 +3,15 @@
 #include <common.h>
 #include <audio/io.h>
 #include <data/Buffer.h>
-
-class AudioReader
+class AudioHandler
 {
- public:
-	AudioReader(size_t);
-	~AudioReader() { if (this->buffer) delete[] this->buffer; }
-
+public:
+	AudioHandler();
+	~AudioHandler();
+	void			startLoad(Buffer&);
+	void			stopLoad();
 	void			bindLoadCallback(int (*callback)(BYTE*, size_t));
-	inline 	size_t	getSize() { return bufferSize; }
-	void			startLoad(Buffer&);	// Starts loading procedure
-	void			stopLoad();		// Stops loading procedure
-	
- protected:
-	BYTE*			buffer;
-	size_t			bufferSize;
+protected:
 	bool 			isLoading;
 	bool			threadFlag;
 	void			threadLoad(Buffer&);
@@ -26,4 +20,24 @@ class AudioReader
 	std::thread* 	control;
 };
 
+class AudioReader : public AudioHandler
+{
+ public:
+	AudioReader() {}
+	~AudioReader() {}
+	
+ protected:
 
+	virtual	void	load(Buffer&) = 0;
+};
+
+class AudioWriter : public AudioHandler
+{
+public:
+	AudioWriter() {}
+	~AudioWriter() {}
+
+protected:
+	virtual void	load (Buffer&) = 0;
+	
+};
