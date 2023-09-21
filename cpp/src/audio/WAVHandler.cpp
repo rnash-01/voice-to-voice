@@ -20,8 +20,6 @@ WAVHandler::~WAVHandler()
 // Reader
 WAVReader::WAVReader()
 {
-	this->fName = NULL;
-	this->wavFile = NULL;
 	this->samplesPerBufItem = 1;
 }
 
@@ -121,4 +119,62 @@ void WAVReader::closeFile()
 }
 
 
-// Writer
+// %% Writer %%
+
+WAVWriter::WAVWriter()
+{
+	// Set defaults.
+	FMT_CK& fmt		   	= this->fmt;
+	fmt.fmt				= 1;
+	fmt.channels		= 1;
+	fmt.samprate		= 44100;
+	fmt.bitsPerSample	= 16;
+	fmt.blockAlign		= (fmt.bitsPerSample * fmt.channels) / 8;
+	fmt.bytesPerSec		= (fmt.blockAlign * fmt.samprate);
+}
+/*
+  Constructor
+  Absorbs formatting information from h.
+
+  @param h The handler (reader or writer) from which to copy.
+ */
+WAVWriter::WAVWriter(WAVHandler& h)
+{
+	FMT_CK& fmt 		= this->fmt;
+
+	// Copy format information from WAVReader.
+	fmt.channels		= h.getNChannels();
+	fmt.samprate		= h.getSampRate();
+	fmt.bytesPerSec		= h.getBytesPerSec();
+	fmt.blockAlign		= h.getBlockAlign();
+	fmt.bitsPerSample	= h.getBitsPerSample();
+}
+
+/*
+  loadMeta
+  Writes formatting chunk to file
+ */
+void WAVWriter::loadMeta()
+{
+	
+}
+
+/*
+  openFile
+ */
+int WAVWriter::openFile()
+{
+}
+
+/*
+  closeFile
+*/
+void WAVWriter::closeFile()
+{}
+/*
+  load
+*/
+void WAVWriter::load(Buffer& b)
+{
+	
+}

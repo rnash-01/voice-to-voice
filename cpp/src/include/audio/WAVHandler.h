@@ -8,6 +8,13 @@ class WAVHandler
 public:
 	WAVHandler									();
 	~WAVHandler 								();
+
+	inline int16_t 	getNChannels		   		()					{ return fmt.channels; 			}
+	inline int32_t 	getSampRate				   	()					{ return fmt.samprate; 			}
+	inline int32_t 	getBytesPerSec				() 					{ return fmt.bytesPerSec; 		}
+	inline int16_t 	getBlockAlign				()					{ return fmt.blockAlign;		}
+	inline int16_t 	getBitsPerSample			()					{ return fmt.bitsPerSample;		}
+
 	
 protected:
 	char* 			fName;						// Name
@@ -27,17 +34,9 @@ class WAVReader : public WAVHandler, public	AudioReader
 	/**/			~WAVReader					()					{}
 
 	void 			load						(Buffer&) 			override;
-
-	inline int16_t 	getNChannels		   		()					{ return fmt.channels; 			}
-	inline int32_t 	getSampRate				   	()					{ return fmt.samprate; 			}
-	inline int32_t 	getBytesPerSec				() 					{ return fmt.bytesPerSec; 		}
-	inline int16_t 	getBlockAlign				()					{ return fmt.blockAlign;		}
-	inline int16_t 	getBitsPerSample			()					{ return fmt.bitsPerSample;		}
 	inline size_t	getFSize					()					{ return fSize;					}
-
 	inline void		setSamplesPerBufItem		(size_t n)			{ this->samplesPerBufItem = n; 	}
 
-	
  private:
 	int 			openFile					() 					override;
 	void 			closeFile					() 					override;
@@ -54,10 +53,16 @@ class WAVReader : public WAVHandler, public	AudioReader
  */
 class WAVWriter : public WAVHandler, public AudioWriter
 {
+public:
 	/**/			WAVWriter					();
-	/**/			~WAVWriter					();
-	/**/			WAVWriter					(WAVReader&);
-	/**/			WAVWriter					(WAVWriter&);
+	/**/			~WAVWriter					() 					{}
+	/**/			WAVWriter					(WAVHandler&);
 
+	void			load						(Buffer&);
+
+private:
+	int 			openFile					() 					override;
+	void 			closeFile					() 					override;
+	void 			loadMeta					()					override;
 	
 };
