@@ -78,3 +78,91 @@ TEST_F(WAVReaderTest, BadInput)
 			r->load(b);
 		});
 }
+
+
+// %%%%%%% WAVWriter %%%%%%%%
+TEST_F(WAVWriterTest, DoesOpenFile)
+{
+	EXPECT_EQ(w->getNChannels(), 1);
+	EXPECT_EQ(w->getSampRate(), 44100);
+	EXPECT_EQ(w->getBytesPerSec(), 88200);
+	EXPECT_EQ(w->getBlockAlign(), 2);
+ 	EXPECT_EQ(w->getBitsPerSample(), 16);
+
+
+	BinaryTree b;
+	w->load(b);
+}
+
+TEST_F(WAVWriterTest, DoesSetNChannels)
+{
+	int16_t blockAlign;
+	int32_t bytesPerSec;
+	EXPECT_EQ(w->getNChannels(), 1);
+
+	blockAlign = w->getBlockAlign();
+	bytesPerSec = w->getBytesPerSec();
+	
+	w->setNChannels(2);
+	EXPECT_EQ(w->getNChannels(), 2);
+	EXPECT_EQ(w->getBlockAlign(), 2 * blockAlign);
+	EXPECT_EQ(w->getBytesPerSec(), 2 * bytesPerSec);
+}
+
+TEST_F(WAVWriterTest, DoesSetSampRate)
+{
+	int16_t blockAlign;
+	int32_t bytesPerSec;
+	
+	EXPECT_EQ(w->getSampRate(), 44100);
+
+	blockAlign = w->getBlockAlign();
+	bytesPerSec = w->getBytesPerSec();
+	
+	w->setSampRate(22050);
+	EXPECT_EQ(w->getSampRate(), 22050);
+	EXPECT_EQ(w->getBlockAlign(), blockAlign);
+	EXPECT_EQ(w->getBytesPerSec(), bytesPerSec / 2);
+}
+
+TEST_F(WAVWriterTest, DoesSetBitsPerSamp)
+{
+	int16_t blockAlign;
+	int32_t bytesPerSec;
+	
+	EXPECT_EQ(w->getBitsPerSample(), 16);
+
+	blockAlign = w->getBlockAlign();
+	bytesPerSec = w->getBytesPerSec();
+	
+	w->setBitsPerSample(32);
+	EXPECT_EQ(w->getBitsPerSample(), 32);
+	EXPECT_EQ(w->getBlockAlign(), 2 * blockAlign);
+	EXPECT_EQ(w->getBytesPerSec(), 2 * bytesPerSec);
+}
+
+TEST_F(WAVWriterTest, DoesWriteSine)
+{
+	Buffer *b = new BinaryTree;
+	size_t bufSize = 441 * w->getBlockAlign();
+	BYTE *buf = new BYTE[bufSize];
+
+	// In this case, two bytes per sample.
+	int16_t sineVal;
+
+	for (int i = 0; i < 44100; i++)
+	{
+		sineVal = (int16_t)(sin((double)i/44100 * 2.0 * M_PI * 500.0) * 32766);
+		for (int j = 0; j < w->getNChannels(); j++)
+		{
+			*(&buf[(i * w->getBlockAlign() + (j * w->getBitsPerSample()/8)) % bufSize]) = sineVal;
+		}
+
+		if (i % 441 == 440)
+			b->appendItem(i/441, bufSize, buf);
+	}
+
+	ASSERT_EQ((*b)[0], 0);
+	
+	delete buf;
+}

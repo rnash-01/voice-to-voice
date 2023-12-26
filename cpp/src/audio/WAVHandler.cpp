@@ -7,14 +7,9 @@ WAVHandler::WAVHandler()
 	this->wavFile 		= NULL;
 }
 
-WAVHandler::~WAVHandler()
+void WAVHandler::setFName(std::string fName)
 {
-	if (this->fName) delete[] this->fName;
-	if (this->wavFile)
-	{
-		this->wavFile->close();
-		delete this->wavFile;
-	}
+	fName.copy((this->fName = new char[fName.length()]), fName.length(), 0);
 }
 
 // Reader
@@ -25,7 +20,7 @@ WAVReader::WAVReader()
 
 WAVReader::WAVReader(std::string f) : WAVReader()
 {
-	f.copy((this->fName = new char[f.length()]), f.length(), 0);
+	this->setFName(f);
 }
 
 /*
@@ -83,20 +78,22 @@ void WAVReader::load(Buffer& b)
 	if (!openFile()) 		return;
 
 	n = samplesPerBufItem * fmt.blockAlign;
+	buffer = new BYTE[n];
+	
 	while (!threadFlag && !wavFile->eof())
 	{
 		// As openFile has finished, we expect all the file
-		// format information has been loaded.
-		buffer = new BYTE[n];
+		// format information has been loaded.	
 		wavFile->read((char*)buffer, n);
 
 		// wavFile->gcount() because we might read less than
 		// the buffer size allows.
 		b.appendItem(i, wavFile->gcount(), buffer);
 
-		delete[] buffer;
 		i++;
 	}
+	
+	delete[] buffer;
 	closeFile();
 }
 
@@ -119,18 +116,36 @@ void WAVReader::closeFile()
 }
 
 
-// %% Writer %%
 
-WAVWriter::WAVWriter()
+/* setDefaults
+   Sets the default values for a handler.
+ */
+void WAVHandler::setDefaults()
 {
-	// Set defaults.
 	FMT_CK& fmt		   	= this->fmt;
 	fmt.fmt				= 1;
 	fmt.channels		= 1;
 	fmt.samprate		= 44100;
 	fmt.bitsPerSample	= 16;
-	fmt.blockAlign		= (fmt.bitsPerSample * fmt.channels) / 8;
-	fmt.bytesPerSec		= (fmt.blockAlign * fmt.samprate);
+
+	this->updateBlockAlign();
+	this->updateBytesPerSec();
+
+}
+
+// %% Writer %%
+
+WAVWriter::WAVWriter()
+{
+	this->wavFile = NULL;
+	this->setDefaults();
+
+}
+WAVWriter::WAVWriter(std::string fName)
+{
+	this->wavFile = NULL;
+	this->setDefaults();
+	this->setFName(fName);
 }
 /*
   Constructor
@@ -138,8 +153,11 @@ WAVWriter::WAVWriter()
 
   @param h The handler (reader or writer) from which to copy.
  */
-WAVWriter::WAVWriter(WAVHandler& h)
+WAVWriter::WAVWriter(WAVHandler& h, std::string fName)
 {
+	this->wavFile = NULL;
+	this->setFName(fName);
+	
 	FMT_CK& fmt 		= this->fmt;
 
 	// Copy format information from WAVReader.
@@ -151,12 +169,73 @@ WAVWriter::WAVWriter(WAVHandler& h)
 }
 
 /*
+  Destructor
+ */
+WAVWriter::~WAVWriter()
+{
+	if (this->wavFile != NULL) this->wavFile->close();
+}
+
+/*
+  setNChannels
+*/
+void WAVWriter::setNChannels(int16_t channels)
+{
+	this->fmt.channels = channels;
+
+	this->updateBlockAlign();
+	this->updateBytesPerSec();
+}
+
+/*
+  setSampRate
+*/
+void WAVWriter::setSampRate(int32_t samprate)
+{
+	this->fmt.samprate = samprate;
+
+	this->updateBlockAlign();
+	this->updateBytesPerSec();
+}
+
+/*
+  setBytesPerSec
+*/
+void WAVWriter::setBitsPerSample(int32_t bitsPerSample)
+{
+	this->fmt.bitsPerSample = bitsPerSample;
+
+	this->updateBlockAlign();
+	this->updateBytesPerSec();
+}
+
+/*
   loadMeta
   Writes formatting chunk to file
  */
 void WAVWriter::loadMeta()
 {
+	char fmtChunkSize[4]; // 16
+	char dataChunkSize[4]; // 0
+
+	fmtChunkSize[0] = 0x10;
 	
+	if (this->wavFile)
+	{
+		// "RIFF" chunk
+		this->wavFile->write("RIFF", 4);
+		this->wavFile->write(dataChunkSize, 4);			// 0 as we don't yet know the size of the file.
+		this->wavFile->write("WAVE", 4);
+
+		// "fmt " sub-chunk
+		this->wavFile->write("fmt ", 4);
+		this->wavFile->write(fmtChunkSize, 4);
+		this->wavFile->write((char*)(&this->fmt), 16);
+
+		// "data" sub-chunk
+		this->wavFile->write("data", 4);
+		this->wavFile->write(dataChunkSize, 4);
+	}
 }
 
 /*
@@ -164,17 +243,52 @@ void WAVWriter::loadMeta()
  */
 int WAVWriter::openFile()
 {
+	closeFile();
+	if (!(this->wavFile = new std::ofstream(this->fName)) || this->wavFile->fail())
+	{
+		this->wavFile = NULL;
+		return 0;
+	}
+	return 1;
 }
 
 /*
   closeFile
+
+  Refactor - duplicate from WAVReader.
 */
 void WAVWriter::closeFile()
-{}
+{
+	if (!wavFile) return;
+	wavFile->close();
+	wavFile = NULL;
+}
+
 /*
   load
 */
 void WAVWriter::load(Buffer& b)
 {
 	
+	char fileSize[4];
+
+	if (&b == NULL) return;
+	this->openFile();
+	loadMeta();
+	
+	*fileSize = 36 + b.getSize();
+
+	if (this->wavFile->seekp(4, std::ios_base::beg) && this->wavFile->fail()) goto end;
+	this->wavFile->write(fileSize, 4);
+
+	*fileSize = b.getSize();
+	if (this->wavFile->seekp(40, std::ios_base::beg) && this->wavFile->fail()) goto end;
+	this->wavFile->write(fileSize, 4);
+
+	// Now get onto writing the data
+	if (this->wavFile->seekp(0, std::ios_base::end) && this->wavFile->fail()) goto end;
+
+	
+end:
+	this->closeFile();
 }

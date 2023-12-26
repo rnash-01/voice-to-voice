@@ -7,7 +7,7 @@ class WAVHandler
 {
 public:
 	WAVHandler									();
-	~WAVHandler 								();
+	~WAVHandler 								()					{}
 
 	inline int16_t 	getNChannels		   		()					{ return fmt.channels; 			}
 	inline int32_t 	getSampRate				   	()					{ return fmt.samprate; 			}
@@ -15,15 +15,21 @@ public:
 	inline int16_t 	getBlockAlign				()					{ return fmt.blockAlign;		}
 	inline int16_t 	getBitsPerSample			()					{ return fmt.bitsPerSample;		}
 
+	void			setFName					(std::string);
+
 	
 protected:
 	char* 			fName;						// Name
 	FMT_CK 			fmt;						// Format info (e.g., sample rate)
-	std::ifstream* 	wavFile;					// File stream reader/writer
+	void*			wavFile;
 
 	virtual int 	openFile					() 					= 0;
 	virtual void	closeFile					()					= 0;
 	virtual	void	loadMeta					()					= 0;
+
+	void			setDefaults					();
+	inline void		updateBlockAlign			()					{ fmt.blockAlign 	= (fmt.bitsPerSample * fmt.channels) / 8; 	}
+	inline void		updateBytesPerSec			()					{ fmt.bytesPerSec 	= (fmt.blockAlign * fmt.samprate); 			}
 };
 
 class WAVReader : public WAVHandler, public	AudioReader
@@ -36,6 +42,9 @@ class WAVReader : public WAVHandler, public	AudioReader
 	void 			load						(Buffer&) 			override;
 	inline size_t	getFSize					()					{ return fSize;					}
 	inline void		setSamplesPerBufItem		(size_t n)			{ this->samplesPerBufItem = n; 	}
+
+ protected:
+ 	std::ifstream* 	wavFile;					// File stream reader
 
  private:
 	int 			openFile					() 					override;
@@ -55,14 +64,26 @@ class WAVWriter : public WAVHandler, public AudioWriter
 {
 public:
 	/**/			WAVWriter					();
-	/**/			~WAVWriter					() 					{}
-	/**/			WAVWriter					(WAVHandler&);
-
+	/**/			~WAVWriter					();
+	/**/			WAVWriter					(std::string);
+	/**/			WAVWriter					(WAVHandler&, std::string);
+	
 	void			load						(Buffer&);
+
+
+	void 			setNChannels		   		(int16_t);
+	void 			setSampRate				   	(int32_t);
+	void		 	setBitsPerSample			(int32_t);
+	
+
+protected:
+	std::ofstream* 	wavFile;					// File stream writer
 
 private:
 	int 			openFile					() 					override;
 	void 			closeFile					() 					override;
 	void 			loadMeta					()					override;
+
+
 	
 };

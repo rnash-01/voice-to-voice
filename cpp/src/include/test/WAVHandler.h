@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <audio/WAVHandler.h>
 #include <data/BinaryTree.h>
+#include <cmath>
 
 class WAVReaderTest : public ::testing::Test
 {
@@ -17,4 +18,23 @@ protected:
 	{
 		delete r;
 	}
+};
+
+class WAVWriterTest : public ::testing::Test
+{
+protected:
+	WAVWriter* w;
+	BinaryTree sine;
+
+
+	void SetUp() override
+	{
+		w = new WAVWriter("./test_out.wav");
+	}
+
+	void TearDown() override
+	{
+		delete w;
+	}
+	
 };
