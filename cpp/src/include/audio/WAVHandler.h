@@ -70,7 +70,6 @@ public:
 	
 	void			load						(Buffer&);
 
-
 	void 			setNChannels		   		(int16_t);
 	void 			setSampRate				   	(int32_t);
 	void		 	setBitsPerSample			(int32_t);

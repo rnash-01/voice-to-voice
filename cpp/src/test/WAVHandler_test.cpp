@@ -149,20 +149,28 @@ TEST_F(WAVWriterTest, DoesWriteSine)
 
 	// In this case, two bytes per sample.
 	int16_t sineVal;
-
-	for (int i = 0; i < 44100; i++)
+	std::cout << bufSize << std::endl;
+	for (int i = 0; i < 44100; i++)		
 	{
-		sineVal = (int16_t)(sin((double)i/44100 * 2.0 * M_PI * 500.0) * 32766);
+
+		sineVal = (int16_t)(sin((double)i/44100 * 2.0 * M_PI * 1000.0) * 30000);
+
 		for (int j = 0; j < w->getNChannels(); j++)
 		{
-			*(&buf[(i * w->getBlockAlign() + (j * w->getBitsPerSample()/8)) % bufSize]) = sineVal;
+			*((int16_t*)&buf[(i * w->getBlockAlign() + (j * w->getBitsPerSample()/8)) % bufSize]) = sineVal;
 		}
 
 		if (i % 441 == 440)
 			b->appendItem(i/441, bufSize, buf);
+
+
 	}
 
 	ASSERT_EQ((*b)[0], 0);
-	
+	for (int i = 0; i < 100; i++) std::cout << ((int16_t*)b->readBetween(i*2, (i * 2) + 2))[0] << std::endl;
+
+	w->load(*b);
 	delete buf;
 }
+
+

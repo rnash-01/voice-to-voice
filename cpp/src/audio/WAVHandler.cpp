@@ -269,14 +269,13 @@ void WAVWriter::closeFile()
 */
 void WAVWriter::load(Buffer& b)
 {
-	
 	char fileSize[4];
 
 	if (&b == NULL) return;
 	this->openFile();
 	loadMeta();
 	
-	*fileSize = 36 + b.getSize();
+	((int32_t*)fileSize)[0] = 36 + b.getSize();
 
 	if (this->wavFile->seekp(4, std::ios_base::beg) && this->wavFile->fail()) goto end;
 	this->wavFile->write(fileSize, 4);
@@ -287,7 +286,10 @@ void WAVWriter::load(Buffer& b)
 
 	// Now get onto writing the data
 	if (this->wavFile->seekp(0, std::ios_base::end) && this->wavFile->fail()) goto end;
+	this->wavFile->write((char*)(b.readBetween(0, b.getSize())), b.getSize());
 
+
+	
 	
 end:
 	this->closeFile();
