@@ -9,6 +9,7 @@ public:
 	WAVHandler									();
 	~WAVHandler 								()					{}
 
+	inline int16_t 	getFmt						()					{ return fmt.fmt; 				}
 	inline int16_t 	getNChannels		   		()					{ return fmt.channels; 			}
 	inline int32_t 	getSampRate				   	()					{ return fmt.samprate; 			}
 	inline int32_t 	getBytesPerSec				() 					{ return fmt.bytesPerSec; 		}
@@ -21,8 +22,7 @@ public:
 protected:
 	char* 			fName;						// Name
 	FMT_CK 			fmt;						// Format info (e.g., sample rate)
-	void*			wavFile;
-
+	
 	virtual int 	openFile					() 					= 0;
 	virtual void	closeFile					()					= 0;
 	virtual	void	loadMeta					()					= 0;
@@ -32,7 +32,7 @@ protected:
 	inline void		updateBytesPerSec			()					{ fmt.bytesPerSec 	= (fmt.blockAlign * fmt.samprate); 			}
 };
 
-class WAVReader : public WAVHandler, public	AudioReader
+class WAVReader : public AudioReader, public WAVHandler
 {
  public:
 	/**/			WAVReader					();

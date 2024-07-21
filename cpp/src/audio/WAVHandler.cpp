@@ -4,7 +4,6 @@
 WAVHandler::WAVHandler()
 {
 	this->fName 		= NULL;
-	this->wavFile 		= NULL;
 }
 
 void WAVHandler::setFName(std::string fName)
@@ -16,6 +15,7 @@ void WAVHandler::setFName(std::string fName)
 WAVReader::WAVReader()
 {
 	this->samplesPerBufItem = 1;
+	this->wavFile = NULL;
 }
 
 WAVReader::WAVReader(std::string f) : WAVReader()
@@ -141,10 +141,8 @@ WAVWriter::WAVWriter()
 	this->setDefaults();
 
 }
-WAVWriter::WAVWriter(std::string fName)
+WAVWriter::WAVWriter(std::string fName) : WAVWriter()
 {
-	this->wavFile = NULL;
-	this->setDefaults();
 	this->setFName(fName);
 }
 /*
@@ -161,6 +159,7 @@ WAVWriter::WAVWriter(WAVHandler& h, std::string fName)
 	FMT_CK& fmt 		= this->fmt;
 
 	// Copy format information from WAVReader.
+	fmt.fmt				= h.getFmt();
 	fmt.channels		= h.getNChannels();
 	fmt.samprate		= h.getSampRate();
 	fmt.bytesPerSec		= h.getBytesPerSec();
@@ -218,7 +217,14 @@ void WAVWriter::loadMeta()
 	char fmtChunkSize[4]; // 16
 	char dataChunkSize[4]; // 0
 
+	// Unclean version
+	// *(&fmtChunkSize[0]) = 0x10000000;
+
+	// Clean version
 	fmtChunkSize[0] = 0x10;
+	fmtChunkSize[1] = 0x00;
+	fmtChunkSize[2] = 0x00;
+	fmtChunkSize[3] = 0x00;
 	
 	if (this->wavFile)
 	{
@@ -287,9 +293,6 @@ void WAVWriter::load(Buffer& b)
 	// Now get onto writing the data
 	if (this->wavFile->seekp(0, std::ios_base::end) && this->wavFile->fail()) goto end;
 	this->wavFile->write((char*)(b.readBetween(0, b.getSize())), b.getSize());
-
-
-	
 	
 end:
 	this->closeFile();

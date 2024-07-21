@@ -14,7 +14,6 @@ AudioHandler::~AudioHandler()
 {
 	if (this->control) control->join();	
 }
-						  
 
 void AudioHandler::bindLoadCallback(int (*callback)(BYTE*, size_t))
 {
