@@ -4,3 +4,5 @@ build
 out
 \#*#
 lib/backend/*
+.vscode/settings.json
+.vscode/tasks.json
