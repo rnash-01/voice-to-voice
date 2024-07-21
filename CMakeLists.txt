@@ -41,6 +41,7 @@ cpp/src/sandbox.cpp
 cpp/src/audio/io.cpp
 cpp/src/audio/AudioHandler.cpp
 cpp/src/audio/WAVHandler.cpp
+cpp/src/data/BinaryTree.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}_test gtest_main)
