@@ -3,21 +3,17 @@
 #include <common.h>
 #include <audio/io.h>
 #include <data/Buffer.h>
+
+/**
+ * Possibly useless :P - but just in case there's something in common between AudioReader and AudioWriter.
+ */
 class AudioHandler
 {
 public:
-	AudioHandler();
-	~AudioHandler();
-	void			startLoad(Buffer&);
-	void			stopLoad();
-	void			bindLoadCallback(int (*callback)(BYTE*, size_t));
+	AudioHandler() {};
+	~AudioHandler() {};
 protected:
-	bool 			isLoading;
-	bool			threadFlag;
-	void			threadLoad(Buffer&);
 	virtual void	load(Buffer&) = 0;					// specific to subclass
-	int				(*onLoad)(BYTE*, size_t);			// When certain amount of data is loaded, call.
-	std::thread* 	control;
 };
 
 class AudioReader : public AudioHandler

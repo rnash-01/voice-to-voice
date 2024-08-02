@@ -21,7 +21,7 @@ this is not strictly the case with file I/O
 class Buffer
 {
  public:
-	Buffer() { this->first = NULL; this->size = 0; }
+	Buffer() { this->first = nullptr; this->size = 0; }
 	~Buffer() {}
 	virtual BYTE 	operator[](uint) 					= 0;
 	virtual BYTE* 	readBetween(uint, uint) 			= 0;

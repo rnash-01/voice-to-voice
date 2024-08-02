@@ -10,7 +10,7 @@ public:
 	friend class BinaryTreeTest;
 
 	FRIEND_TEST(BinaryTreeTest, DoesAppendItem);
-	FRIEND_TEST(BinaryTreeTest, DoesNotAppendNULL);
+	FRIEND_TEST(BinaryTreeTest, DoesNotAppendnullptr);
 	FRIEND_TEST(BinaryTreeTest, DoesAppendManyItems);
 
 
@@ -23,8 +23,8 @@ protected:
 	void SetUp() override
 	{
 		tree = new BinaryTree_G();
-		tree->first = NULL;
-		tree->head = NULL;
+		tree->first = nullptr;
+		tree->head = nullptr;
 	}
 
 	void TearDown() override
@@ -43,7 +43,7 @@ public:
 
 protected:
 	void SetUp() override {
-		buffer = NULL;
+		buffer = nullptr;
 		tree = new BinaryTree_G();
 		BYTE* buffers[5];
 		size_t sizes[] = { 256, 256, 256, 128, 64 };

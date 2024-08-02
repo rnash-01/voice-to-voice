@@ -17,7 +17,7 @@ TEST_F(BinaryTreeTest, DoesAppendItem)
 		EXPECT_EQ(((BinTreeItem*)tree->head)->data[i], i);
 }
 
-TEST_F(BinaryTreeTest, DoesNotAppendNULL)
+TEST_F(BinaryTreeTest, DoesNotAppendnullptr)
 {
 	BYTE* nullBuffer = (BYTE*) 0;
 	BYTE* realBuffer = new BYTE[256];

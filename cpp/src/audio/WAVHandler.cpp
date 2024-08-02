@@ -3,7 +3,7 @@
 // Handler
 WAVHandler::WAVHandler()
 {
-	this->fName 		= NULL;
+	this->fName 		= nullptr;
 }
 
 void WAVHandler::setFName(std::string fName)
@@ -15,7 +15,7 @@ void WAVHandler::setFName(std::string fName)
 WAVReader::WAVReader()
 {
 	this->samplesPerBufItem = 1;
-	this->wavFile = NULL;
+	this->wavFile = nullptr;
 }
 
 WAVReader::WAVReader(std::string f) : WAVReader()
@@ -54,7 +54,7 @@ void WAVReader::loadMeta()
 
  err:
 	wavFile->close();
-	wavFile = NULL;
+	wavFile = nullptr;
 	return;
 }
 
@@ -80,7 +80,7 @@ void WAVReader::load(Buffer& b)
 	n = samplesPerBufItem * fmt.blockAlign;
 	buffer = new BYTE[n];
 	
-	while (!threadFlag && !wavFile->eof())
+	while (!wavFile->eof())
 	{
 		// As openFile has finished, we expect all the file
 		// format information has been loaded.	
@@ -112,7 +112,7 @@ void WAVReader::closeFile()
 {
 	if (!wavFile) return;
 	wavFile->close();
-	wavFile = NULL;
+	wavFile = nullptr;
 }
 
 
@@ -137,7 +137,7 @@ void WAVHandler::setDefaults()
 
 WAVWriter::WAVWriter()
 {
-	this->wavFile = NULL;
+	this->wavFile = nullptr;
 	this->setDefaults();
 
 }
@@ -153,7 +153,7 @@ WAVWriter::WAVWriter(std::string fName) : WAVWriter()
  */
 WAVWriter::WAVWriter(WAVHandler& h, std::string fName)
 {
-	this->wavFile = NULL;
+	this->wavFile = nullptr;
 	this->setFName(fName);
 	
 	FMT_CK& fmt 		= this->fmt;
@@ -172,7 +172,7 @@ WAVWriter::WAVWriter(WAVHandler& h, std::string fName)
  */
 WAVWriter::~WAVWriter()
 {
-	if (this->wavFile != NULL) this->wavFile->close();
+	if (this->wavFile != nullptr) this->wavFile->close();
 }
 
 /*
@@ -252,7 +252,7 @@ int WAVWriter::openFile()
 	closeFile();
 	if (!(this->wavFile = new std::ofstream(this->fName)) || this->wavFile->fail())
 	{
-		this->wavFile = NULL;
+		this->wavFile = nullptr;
 		return 0;
 	}
 	return 1;
@@ -267,7 +267,7 @@ void WAVWriter::closeFile()
 {
 	if (!wavFile) return;
 	wavFile->close();
-	wavFile = NULL;
+	wavFile = nullptr;
 }
 
 /*
@@ -277,7 +277,7 @@ void WAVWriter::load(Buffer& b)
 {
 	char fileSize[4];
 
-	if (&b == NULL) return;
+	if (&b == nullptr) return;
 	this->openFile();
 	loadMeta();
 	

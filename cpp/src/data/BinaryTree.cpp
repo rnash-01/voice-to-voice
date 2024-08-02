@@ -2,7 +2,7 @@
 
 BinaryTree::BinaryTree() : Buffer()
 {
-	head = NULL;
+	head = nullptr;
 }
 
 void BinaryTree::deleteSubTree(BinTreeItem* item)
@@ -27,7 +27,7 @@ void BinaryTree::clear()
 {
 	if (!this->head) return;
 	deleteSubTree(this->head);
-	this->head = NULL;
+	this->head = nullptr;
 	this->size = 0;
 }
 
@@ -52,7 +52,7 @@ void BinaryTree::inOrderRead(uint &start, size_t& n, uint& offset, BYTE* buffer,
 	size_t originalSize = n;
 	int i = 0;
 	
-	if (item == NULL || n == 0)
+	if (item == nullptr || n == 0)
 		return;
 
 	inOrderRead(start, n, offset, buffer, item->lchild);
@@ -93,7 +93,7 @@ void BinaryTree::appendItem(uint i, size_t n, BYTE* old)
 	BYTE* buffer;
 	char lr;								// Whether 'current' is the left/right child of previous node.
 	
-	// Do not copy from a NULL buffer
+	// Do not copy from a nullptr buffer
 	if (!old) return;
 	
 	buffer = new BYTE[n];
