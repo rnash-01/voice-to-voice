@@ -149,7 +149,6 @@ TEST_F(WAVWriterTest, DoesWriteSine)
 
 	// In this case, two bytes per sample.
 	int16_t sineVal;
-	std::cout << bufSize << std::endl;
 	for (int i = 0; i < 44100; i++)		
 	{
 
@@ -167,7 +166,6 @@ TEST_F(WAVWriterTest, DoesWriteSine)
 	}
 
 	ASSERT_EQ((*b)[0], 0);
-	for (int i = 0; i < 100; i++) std::cout << ((int16_t*)b->readBetween(i*2, (i * 2) + 2))[0] << std::endl;
 
 	w->load(*b);
 	delete buf;

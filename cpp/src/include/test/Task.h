@@ -1,5 +1,7 @@
+#pragma once
 #include <gtest/gtest.h>
 #include <task/Task.h>
+#include <task/BasicTask.h>
 #include <string>
 
 typedef struct taskresult {
@@ -9,35 +11,16 @@ typedef struct taskresult {
     std::string d;
 } TaskResult;
 
-class BasicTask : public Task<TaskResult> {
-public:
-    BasicTask() {
-      this->init();
-    }
-
-    BasicTask(std::function<TaskResult()> const& function) : Task(function) {
-      this->init();
-    }
-    ~BasicTask() {}
-
-    void init() override {
-      this->run = std::function<int()>([this]() -> int { 
-        this->execute();
-        return 0;
-      });
-    }
-};
-
 class TaskTest : public ::testing::Test {
 public:
     TaskTest() {}
 
 protected:
     void SetUp() override {
-        task = std::make_unique<BasicTask>();
+        task = std::make_unique<BasicTask<TaskResult>>();
     }
 
     void TearDown() override {}
 
-    std::unique_ptr<BasicTask> task;
+    std::unique_ptr<BasicTask<TaskResult>> task;
 };

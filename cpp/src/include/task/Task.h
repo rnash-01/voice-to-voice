@@ -11,70 +11,138 @@
     - Using concurrency in the first place for this is to allow past audio data to be processed while current audio data is collected.
     - There may be better ways but this is what I've come up with! :)
 */
-
+#pragma once
 #include <thread>
 #include <memory>
 #include <functional>
-template <typename T, typename... Args> class Task {
+#include <iostream>
+#include <atomic>
+
+/* 
+Flags:
+Status value currently looks like this bit string - each unique letter represents which segment a bit belongs to.
+Bit string: ss
+  s - current success/failure/run status of the task.
+
+Right now it looks a bit convoluted, but I'm allowing some leeway for additional flags in future.
+If in future it turns out that no additional flags are needed, then the status value will be simplified.
+*/
+#define S_RESET -4 // i.e., 1111...111100
+#define S_IDLE_SUCCESS 0
+#define S_FAILURE 1
+#define S_RUNNING 2
+#define S_WAITING 3
+
+/**
+ * Some context for how this is supposed to work from an architectural perspective:
+ * The 'Task' class is supposed to handle the control thread for the ask. It contains code which will be needed
+ * by all derived classes. The derived classes will contain the actual code to be executed by the task.
+ * 
+ * Some methods appear identical in purpose. They are, more or less, but differentiated by whether they are the responsibility
+ * of this main Task class or of the child (SubTask) classes. Note that SubTask is not an actual class implemented in this codebase, 
+ * but represents any child class
+ * 
+ * I expect code to be executed in the following order:
+ * 
+ * Set up:
+ * - Task constructor
+ * - SubTask constructor
+ * - SubTask::init
+ * - Task::bind (if not already bound in SubTask constructor)
+ * 
+ * Execution:
+ * - Task::launch -> to spawn the thread. 
+ * - SubTask::run -> final preparations to the environment in which 'execute' is run, followed by 'execute' 
+ *      (note that SubTask::run is technically an attribute of type std::function<int()> and not a method. But it's basically a method. Right? Right.)
+ * - Task::execute -> run the bound function and store the result or handle exceptions. 
+ * 
+ * Tear down:
+ * - Task::terminate -> Waits for thread to finish.
+ * - SubTask destructor
+ * - Task destructor
+ * 
+ * Other notes:
+ * - Parameters are defined as attributes in the defined SubTask. It would be ideal if 
+ *   Task::launch could be called with the parameters to save the need. However, in order to allow for
+ *   pools of tasks, launch must accept no arguments - or else, 
+ */
+
+
+class Task {
 public:
   // Constructors & Destructor
   Task    () 
   {
-    this->result_ = T();
     this->status_ = 0;
   }
-
-  Task    (std::function<T(Args...)> const& function) : Task()
-  {
-    this->bind(function);
-  }
-
   ~Task   () {}
 
   // Thread management & function binding/execution
   int launch ()  
   {
-    taskThread = std::thread(this->run);
+    this->status((this->status() & S_RESET) | S_RUNNING);
+    taskThread = std::thread([this]() -> void {
+      try 
+      {
+        this->run();
+        this->success();
+      }
+      catch (std::exception& e) 
+      {
+        this->failure();
+      }
+    });
     return 0;
   }
 
+  /**
+   * @brief Checks if the task is running
+   */
+  int check ()
+  {
+    if (this->status() & 2) return 1;
+    return 0;
+  }
+
+  /**
+   * @brief (Blocking) Terminates the task thread
+   */
   int terminate ()
   {
+    while (!taskThread.joinable());
     taskThread.join();
     return 0;
   }
 
-  int bind (std::function<T(Args...)> const& function) 
+  void success ()
   {
-    this->function_ = function;
-    return 0;
+    // Set status_lock_ to true
+    status_lock_ = true;
+    this->status(this->status() & S_RESET);
+    status_lock_ = false;
   }
 
-  int execute ()
+  void failure ()
   {
-    this->result(this->function_());
-    return 0;
+    status_lock_ = true;
+    this->status((this->status() & S_RESET) | S_FAILURE);
+    status_lock_ = false;
   }
 
   // To be implemented by child classes
-  virtual void          init      () = 0;
   std::function<int()>  run;
 
   // Setters & Getters
-  T                 result    ()                { return this->result_; }
   int               status    ()                { return this->status_; }
   std::thread::id   threadId  ()                { return taskThread.get_id(); }
 
 protected:
-  std::function<T(Args...)>       function_;
   int                             status_;
-  T                               result_;
+  std::atomic<bool>               status_lock_;
 
-  // Setters & Getters
-  void              result    (T const& val)    { this->result_ = val; }
+  // Setters
   void              status    (int const& val)  { this->status_ = val; }
-  
     
 private:
-  std::thread     taskThread;
+  std::thread         taskThread;
 };
