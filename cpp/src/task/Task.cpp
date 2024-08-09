@@ -6,19 +6,21 @@ Task::Task()
   this->status_lock_ = false;
 }
 
-// Thread management & function binding/execution
+/**
+ * @brief Creates thread to run the task. (DEFAULT IMPLEMENTATION)
+ */
 int Task::launch ()  
 {
     this->status((this->status() & S_RESET) | S_RUNNING);
     taskThread = std::thread([this]() -> void {
         try 
         {
-        this->run();
-        this->success();
+            this->run();
+            this->success();
         }
         catch (std::exception& e) 
         {
-        this->failure();
+            this->failure();
         }
     });
     return 0;
@@ -34,11 +36,11 @@ int Task::check ()
 }
 
 /**
- * @brief (Blocking) Terminates the task thread
+ * @brief (Blocking) Terminates the task thread (DEFAULT IMPLEMENTATION)
  */
 int Task::terminate ()
 {
-    while (!taskThread.joinable());
+    while (this->status() & S_RESET != this->status() && !taskThread.joinable());
     taskThread.join();
     return 0;
 }

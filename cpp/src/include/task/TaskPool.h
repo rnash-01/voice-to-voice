@@ -9,36 +9,16 @@
  */
 class TaskPool : public Task {
 public:
-    TaskPool(std::vector<std::shared_ptr<Task>> const& tasks) 
-    {
-        this->tasks_ = tasks;
-        this->run = std::function<int()>([this]() -> int {
-            try 
-            {
-                this->scheduler();
-                this->success();
-                return 0;
-            }
-            catch (std::exception& e) 
-            {
-                this->failure();
-                return 1;
-            }
-        });
-    }
+    TaskPool(std::vector<std::shared_ptr<Task>> const& tasks);
     ~TaskPool();
-
+    
+    int                                 launch      ()       override;
+    int                                 terminate   ()       override;
+    std::shared_ptr<Task>               operator[]  (int i)                 { return tasks_[i]; }
 
 protected:
-    std::vector<std::shared_ptr<Task>> tasks_;
+    std::vector<std::shared_ptr<Task>>  tasks_;
 
 private:
-    void scheduler() 
-    {
-        for (auto task : this->tasks_) 
-        {
-            task->launch();
-        }
-    }
-
+    void    scheduler();
 };

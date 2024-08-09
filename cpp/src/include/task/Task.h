@@ -72,9 +72,9 @@ public:
   Task ();
   ~Task () {}
 
-  int                   launch    ();
+  virtual int           launch    ();
+  virtual int           terminate ();
   int                   check     ();
-  int                   terminate ();
   void                  success   ();
   void                  failure   ();
   
@@ -84,12 +84,11 @@ public:
   std::function<int()>  run;
 
 protected:
+  void                  status    (int const& val)  { this->status_ = val; }
+  
   int                   status_;
   std::atomic<bool>     status_lock_;
 
-  void                  status    (int const& val)  { this->status_ = val; }
-
-    
 private:
   std::thread           taskThread;
 };
