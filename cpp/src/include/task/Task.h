@@ -69,82 +69,27 @@ If in future it turns out that no additional flags are needed, then the status v
 
 class Task {
 public:
-  // Constructors & Destructor
-  Task    () 
-  {
-    this->status_ = 0;
-    this->status_lock_ = false;
-  }
-  ~Task   () {}
+  Task ();
+  ~Task () {}
 
-  // Thread management & function binding/execution
-  int launch ()  
-  {
-    this->status((this->status() & S_RESET) | S_RUNNING);
-    taskThread = std::thread([this]() -> void {
-      try 
-      {
-        this->run();
-        this->success();
-      }
-      catch (std::exception& e) 
-      {
-        this->failure();
-      }
-    });
-    return 0;
-  }
+  int                   launch    ();
+  int                   check     ();
+  int                   terminate ();
+  void                  success   ();
+  void                  failure   ();
+  
+  int                   status    ()                { return this->status_; }
+  std::thread::id       threadId  ()                { return taskThread.get_id(); }
 
-  /**
-   * @brief Checks if the task is running
-   */
-  int check ()
-  {
-    if (this->status() & 2) return 1;
-    return 0;
-  }
-
-  /**
-   * @brief (Blocking) Terminates the task thread
-   */
-  int terminate ()
-  {
-    while (!taskThread.joinable());
-    taskThread.join();
-    return 0;
-  }
-
-  void success ()
-  {
-    // Set status_lock_ to true
-    while (status_lock_);
-    status_lock_ = true;
-    this->status(this->status() & S_RESET);
-    status_lock_ = false;
-  }
-
-  void failure ()
-  {
-    while(status_lock_);
-    status_lock_ = true;
-    this->status((this->status() & S_RESET) | S_FAILURE);
-    status_lock_ = false;
-  }
-
-  // To be implemented by child classes
   std::function<int()>  run;
 
-  // Setters & Getters
-  int               status    ()                { return this->status_; }
-  std::thread::id   threadId  ()                { return taskThread.get_id(); }
-
 protected:
-  int                             status_;
-  std::atomic<bool>               status_lock_;
+  int                   status_;
+  std::atomic<bool>     status_lock_;
 
-  void              status    (int const& val)  { this->status_ = val;  }
+  void                  status    (int const& val)  { this->status_ = val; }
 
     
 private:
-  std::thread       taskThread;
+  std::thread           taskThread;
 };
