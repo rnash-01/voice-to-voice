@@ -10,7 +10,7 @@
 class TaskPool : public Task {
 public:
     TaskPool(std::vector<std::shared_ptr<Task>> const& tasks);
-    ~TaskPool();
+    ~TaskPool() {}
     
     int                                 launch      ()       override;
     int                                 terminate   ()       override;
