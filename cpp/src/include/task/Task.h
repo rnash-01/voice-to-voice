@@ -67,13 +67,13 @@ If in future it turns out that no additional flags are needed, then the status v
  *   pools of tasks, launch must accept no arguments - or else, 
  */
 
-
 class Task {
 public:
   // Constructors & Destructor
   Task    () 
   {
     this->status_ = 0;
+    this->status_lock_ = false;
   }
   ~Task   () {}
 
@@ -117,6 +117,7 @@ public:
   void success ()
   {
     // Set status_lock_ to true
+    while (status_lock_);
     status_lock_ = true;
     this->status(this->status() & S_RESET);
     status_lock_ = false;
@@ -124,6 +125,7 @@ public:
 
   void failure ()
   {
+    while(status_lock_);
     status_lock_ = true;
     this->status((this->status() & S_RESET) | S_FAILURE);
     status_lock_ = false;
@@ -140,9 +142,9 @@ protected:
   int                             status_;
   std::atomic<bool>               status_lock_;
 
-  // Setters
-  void              status    (int const& val)  { this->status_ = val; }
+  void              status    (int const& val)  { this->status_ = val;  }
+
     
 private:
-  std::thread         taskThread;
+  std::thread       taskThread;
 };
