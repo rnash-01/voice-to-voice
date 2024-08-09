@@ -46,6 +46,7 @@ cpp/src/audio/AudioHandler.cpp
 cpp/src/audio/WAVHandler.cpp
 cpp/src/data/BinaryTree.cpp
 cpp/src/task/Task.cpp
+cpp/src/task/TaskPool.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}_test gtest_main)
