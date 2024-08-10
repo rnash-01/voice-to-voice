@@ -34,7 +34,7 @@ cpp/src/data/BinaryTree.cpp
 cpp/src/data/Buffer.cpp
 cpp/src/task/Task.cpp
 cpp/src/task/TaskPool.cpp
-cpp/src/audio/io_test.cpp
+cpp/test/io_test.cpp
 cpp/test/BinaryTree_test.cpp
 # cpp/test/AudioHandler_test.cpp
 cpp/test/Task_test.cpp
