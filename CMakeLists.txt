@@ -32,10 +32,12 @@ cpp/src/audio/WAVHandler.cpp
 cpp/src/data/BinaryTree.cpp
 cpp/src/data/Buffer.cpp
 cpp/src/task/Task.cpp
+cpp/src/task/TaskPool.cpp
 cpp/src/audio/io_test.cpp
 cpp/src/test/BinaryTree_test.cpp
 # cpp/src/test/AudioHandler_test.cpp
 cpp/src/test/Task_test.cpp
+cpp/src/test/TaskPool_test.cpp
 cpp/src/test/WAVHandler_test.cpp
 )
 

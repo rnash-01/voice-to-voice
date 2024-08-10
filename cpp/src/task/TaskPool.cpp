@@ -35,7 +35,13 @@ int TaskPool::terminate ()
     {
         task->terminate();
     }
+    this->success();
     return 0;
+}
+
+void TaskPool::addTask(std::shared_ptr<Task> task)
+{
+    this->tasks_.push_back(task);
 }
 
 void TaskPool::scheduler ()

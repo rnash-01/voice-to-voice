@@ -1,20 +1,21 @@
 #pragma once
 #include <gtest/gtest.h>
-#include <task/Task.h>
+#include <task/TaskPool.h>
 #include <task/FunctionTask.h>
 #include <test/TaskResult.h>
 #include <string>
 
-class TaskTest : public ::testing::Test {
+
+class TaskPoolTest : public ::testing::Test {
 public:
-    TaskTest() {}
+    TaskPoolTest() {}
 
 protected:
     void SetUp() override {
-        task = std::make_unique<FunctionTask<TaskResult>>();
+        pool = std::make_unique<TaskPool>();
     }
 
     void TearDown() override {}
 
-    std::unique_ptr<FunctionTask<TaskResult>> task;
+    std::unique_ptr<TaskPool> pool;
 };

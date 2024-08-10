@@ -34,12 +34,14 @@ public:
         {
             this->function_ = function;
             this->args_ = std::make_tuple(args...);
+            this->success();
             return 0;
         }
         catch (std::exception& e) 
         {
             this->function_ = std::function<T(Args...)>();
             this->args_ = std::tuple<Args...>();
+            this->failure();
             return 1;
         }
     }
@@ -47,8 +49,18 @@ public:
     void init()
     {
         this->run = std::function<int()>([this]() -> int {
-            T result = std::apply(this->function_, this->args_);
-            this->result(result);
+            try
+            {
+                T result = std::apply(this->function_, this->args_);
+                this->result(result);
+            }
+            catch (std::exception& e)
+            {
+                std::cout << "Exception caught: " << e.what() << std::endl;
+                this->result(T());
+                this->failure();
+                return 1;
+            }
             return 0;
         });
     }

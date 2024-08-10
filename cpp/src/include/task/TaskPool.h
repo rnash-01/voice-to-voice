@@ -9,12 +9,15 @@
  */
 class TaskPool : public Task {
 public:
+    TaskPool() {}
     TaskPool(std::vector<std::shared_ptr<Task>> const& tasks);
     ~TaskPool() {}
     
-    int                                 launch      ()       override;
-    int                                 terminate   ()       override;
-    std::shared_ptr<Task>               operator[]  (int i)                 { return tasks_[i]; }
+    virtual int                     launch      ()                              override;
+    virtual int                     terminate   ()                              override;
+    void                            addTask     (std::shared_ptr<Task> task);
+    int                             size        ()                              { return tasks_.size(); }
+    std::shared_ptr<Task>           operator[]  (int i)                         { return tasks_[i]; }
 
 protected:
     std::vector<std::shared_ptr<Task>>  tasks_;

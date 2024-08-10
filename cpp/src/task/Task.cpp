@@ -12,17 +12,7 @@ Task::Task()
 int Task::launch ()  
 {
     this->status((this->status() & S_RESET) | S_RUNNING);
-    taskThread = std::thread([this]() -> void {
-        try 
-        {
-            this->run();
-            this->success();
-        }
-        catch (std::exception& e) 
-        {
-            this->failure();
-        }
-    });
+    taskThread = std::thread(this->run);
     return 0;
 }
 
