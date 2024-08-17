@@ -1,3 +1,5 @@
+#pragma once
+
 #include <gtest/gtest.h>
 #include <audio/WAVHandler.h>
 #include <data/BinaryTree.h>

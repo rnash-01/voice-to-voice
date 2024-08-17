@@ -34,12 +34,14 @@ cpp/src/data/BinaryTree.cpp
 cpp/src/data/Buffer.cpp
 cpp/src/task/Task.cpp
 cpp/src/task/TaskPool.cpp
+cpp/src/processing/Spectrogram.cpp
 cpp/test/io_test.cpp
 cpp/test/BinaryTree_test.cpp
 # cpp/test/AudioHandler_test.cpp
 cpp/test/Task_test.cpp
 cpp/test/TaskPool_test.cpp
 cpp/test/WAVHandler_test.cpp
+cpp/test/Spectrogram_test.cpp
 )
 
 add_executable(${PROJECT_NAME}_sandbox
@@ -50,6 +52,7 @@ cpp/src/audio/WAVHandler.cpp
 cpp/src/data/BinaryTree.cpp
 cpp/src/task/Task.cpp
 cpp/src/task/TaskPool.cpp
+cpp/src/processing/Spectrogram.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}_test gtest_main)
