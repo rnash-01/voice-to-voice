@@ -1,6 +1,6 @@
-#ifndef HELLOWORLD
-#define HELLOWORLD
+#ifndef HELLO_WORLD_H
+#define HELLO_WORLD_H
 
-char* helloworld();
+const char* helloworld();
 
-#endif HELLOWORLD
+#endif 

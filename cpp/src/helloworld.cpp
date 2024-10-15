@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <cstring>
+#include <string>
 #include <cstdio>
 
-char* helloworld()
+const char* helloworld()
 {
-    char* msg = "The CPP message works babyy!";
-	return msg;
+    std::string msg = "The CPP message works babyy!";
+	return msg.c_str();
 }
 	
