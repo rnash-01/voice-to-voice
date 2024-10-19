@@ -47,7 +47,7 @@ test/Spectrogram_test.cpp
 add_executable(${PROJECT_NAME}_sandbox
 src/sandbox.cpp
 src/audio/io.cpp
-src/audio/AudioHandler.cpp
+# src/audio/AudioHandler.cpp
 src/audio/WAVHandler.cpp
 src/data/BinaryTree.cpp
 src/task/Task.cpp
