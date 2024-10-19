@@ -1,9 +1,12 @@
 <mxfile host="65bd71144e">
     <diagram id="rVW-LHmZWdmXAgt8M_pt" name="Page-1">
-        <mxGraphModel dx="1943" dy="904" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1943" dy="464" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <mxCell id="93" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-220" y="100" width="1040" height="1020" as="geometry"/>
+                </mxCell>
                 <mxCell id="11" value="&lt;b&gt;Audio&lt;/b&gt;" style="html=1;dropTarget=0;verticalAlign=top;" parent="1" vertex="1">
                     <mxGeometry x="370" y="130" width="390" height="600" as="geometry"/>
                 </mxCell>
@@ -69,7 +72,7 @@
                         <mxPoint x="350" y="275" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="33" value="&lt;b&gt;WAVReader&lt;/b&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
+                <mxCell id="33" value="&lt;b&gt;WAVWriter&lt;/b&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
                     <mxGeometry x="570" y="490" width="180" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="63" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=halfCircle;endFill=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;endSize=6;" parent="1" source="29" target="86" edge="1">
@@ -142,18 +145,18 @@
                 <mxCell id="77" value="&lt;b&gt;TaskPool&lt;/b&gt;" style="html=1;dropTarget=0;" parent="1" vertex="1">
                     <mxGeometry x="130" y="680" width="180" height="90" as="geometry"/>
                 </mxCell>
-                <mxCell id="84" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" target="86" parent="1" source="56">
+                <mxCell id="84" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="56" target="86" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="280" y="270" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="86" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" vertex="1" parent="1">
+                <mxCell id="86" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;" parent="1" vertex="1">
                     <mxGeometry x="290" y="270" width="10" height="10" as="geometry"/>
                 </mxCell>
-                <mxCell id="92" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;endSize=6;" edge="1" parent="1" source="91" target="56">
+                <mxCell id="92" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;endSize=6;" parent="1" source="91" target="56" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="91" value="Move state to implementing classes" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                <mxCell id="91" value="Move state to implementing classes" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
                     <mxGeometry x="-190" y="280" width="80" height="140" as="geometry"/>
                 </mxCell>
             </root>
