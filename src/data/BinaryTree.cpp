@@ -2,7 +2,9 @@
 
 BinaryTree::BinaryTree() : Buffer()
 {
-	head = nullptr;
+	this->head = nullptr;
+	this->first = nullptr; 
+	this->size = 0;
 }
 
 void BinaryTree::deleteSubTree(BinTreeItem* item)

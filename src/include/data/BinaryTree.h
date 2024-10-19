@@ -21,11 +21,14 @@ class BinaryTree : public Buffer
 	BYTE* 	readBetween	(uint, uint) 					override;
 	void 	appendItem	(uint, size_t, BYTE*) 			override;
 
-	void 	clear() override;
+	void 	clear() 	override;
+	size_t	getSize()	{ return size; }
 private:
 	void 	inOrderRead	(uint&, size_t&, uint&, BYTE*, BinTreeItem*);
 	void	deleteSubTree(BinTreeItem*);
 
 protected:
-	BinTreeItem* head;
+	BinTreeItem* 	head;
+	size_t 			size;
+	void* 			first;
 };

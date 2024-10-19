@@ -21,17 +21,11 @@ this is not strictly the case with file I/O
 class Buffer
 {
  public:
-	Buffer() { this->first = nullptr; this->size = 0; }
-	~Buffer() {}
-	virtual BYTE 	operator[](uint) 					= 0;
-	virtual BYTE* 	readBetween(uint, uint) 			= 0;
+	virtual BYTE	operator[](uint) 					= 0;
+	virtual BYTE*	readBetween(uint, uint) 			= 0;
+	virtual size_t	getSize()							= 0;
 	virtual void	appendItem(uint, size_t, BYTE*) 	= 0;
-	inline 	size_t	getSize()							{ return size; }
 	virtual void	clear()								= 0;
-
- protected:
-	void* 	first;
-	size_t 	size;
 };
 
 
